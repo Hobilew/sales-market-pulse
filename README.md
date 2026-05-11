@@ -22,6 +22,6 @@ Open [http://localhost:8765](http://localhost:8765).
 - `prd.md` — product requirements (mirrors Notion)
 - `index.html` — UI and client-side filtering
 - `stub/market.json` — sample indices / tickers
-- `stub/news.json` — sample headlines tagged for sales prep
+- `stub/news.json` — briefing-style stories: **`article`** (paragraph strings) and **`relevance`** (why it matters for Cursor sales); optional **`relevanceTitle`**
 
 Edit the JSON files to change demo data. Replace with real sources in a later phase.

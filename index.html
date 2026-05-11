@@ -72,13 +72,14 @@
       }
       main {
         display: grid;
-        grid-template-columns: 1fr 1.4fr;
+        grid-template-columns: minmax(260px, 1fr) minmax(0, 2.25fr);
         gap: 1rem;
         padding: 1rem 1.25rem 2rem;
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
+        align-items: start;
       }
-      @media (max-width: 820px) {
+      @media (max-width: 900px) {
         main {
           grid-template-columns: 1fr;
         }
@@ -133,16 +134,54 @@
         font-variant-numeric: tabular-nums;
       }
       .news-item {
-        padding: 0.65rem 0;
+        padding: 1.1rem 0;
         border-bottom: 1px solid var(--border);
+      }
+      .news-item:first-child {
+        padding-top: 0.25rem;
       }
       .news-item:last-child {
         border-bottom: none;
+        padding-bottom: 0.25rem;
       }
       .news-item h3 {
-        margin: 0 0 0.25rem;
-        font-size: 0.95rem;
-        font-weight: 600;
+        margin: 0 0 0.35rem;
+        font-size: 1.05rem;
+        font-weight: 650;
+        line-height: 1.35;
+      }
+      .article-body {
+        margin: 0.65rem 0 0;
+        font-size: 0.92rem;
+        line-height: 1.62;
+        color: var(--text);
+      }
+      .article-body p {
+        margin: 0 0 0.65rem;
+      }
+      .article-body p:last-child {
+        margin-bottom: 0;
+      }
+      .relevance-block {
+        margin: 0.85rem 0 0;
+        padding: 0.75rem 0.85rem;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--accent);
+        background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+      }
+      .relevance-block h4 {
+        margin: 0 0 0.5rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 650;
+      }
+      .relevance-block .article-body {
+        margin-top: 0;
+        font-size: 0.88rem;
+        line-height: 1.58;
       }
       .meta {
         font-size: 0.78rem;
@@ -186,7 +225,10 @@
         <div id="market-root"></div>
       </section>
       <section aria-labelledby="news-heading">
-        <h2 id="news-heading">News (stub)</h2>
+        <h2 id="news-heading">News briefings (stub)</h2>
+        <p class="meta" style="margin: -0.35rem 0 0.75rem; max-width: 52rem">
+          Full context plus a <strong>Cursor sales angle</strong> on each story. Edit copy in <code>stub/news.json</code>.
+        </p>
         <div id="news-root"></div>
       </section>
     </main>
@@ -211,6 +253,23 @@
         } catch {
           return iso;
         }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function paragraphsHtml(field) {
+        if (field == null) return "";
+        const parts = Array.isArray(field) ? field : [field];
+        const paras = parts.map((p) => String(p).trim()).filter(Boolean);
+        if (!paras.length) return "";
+        return paras.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
       }
 
       function renderMarket() {
@@ -259,14 +318,29 @@
           return;
         }
         newsRoot.innerHTML = items
-          .map(
-            (i) => `
+          .map((i) => {
+            const headline = escapeHtml(i.headline ?? "Untitled");
+            const src = escapeHtml(i.source ?? "Source");
+            const bodyHtml = paragraphsHtml(i.article);
+            const relHtml = paragraphsHtml(i.relevance);
+            const relevanceTitle = escapeHtml(i.relevanceTitle ?? "Why this matters for Cursor sales");
+            const bodySection = bodyHtml
+              ? `<div class="article-body">${bodyHtml}</div>`
+              : `<div class="article-body"><p><em>No article body in stub data.</em></p></div>`;
+            const relevanceSection = relHtml
+              ? `<aside class="relevance-block" aria-label="Sales relevance"><h4>${relevanceTitle}</h4><div class="article-body">${relHtml}</div></aside>`
+              : "";
+            return `
           <article class="news-item">
-            <h3>${i.headline}</h3>
-            <div class="meta">${i.source ?? "Source"} · ${formatTime(i.publishedAt)}</div>
-            <div class="chips">${(i.tags ?? []).map((t) => `<span class="chip">${t}</span>`).join("")}</div>
-          </article>`
-          )
+            <h3>${headline}</h3>
+            <div class="meta">${src} · ${escapeHtml(formatTime(i.publishedAt))}</div>
+            <div class="chips">${(i.tags ?? [])
+              .map((t) => `<span class="chip">${escapeHtml(t)}</span>`)
+              .join("")}</div>
+            ${bodySection}
+            ${relevanceSection}
+          </article>`;
+          })
           .join("");
       }
 
