@@ -1,6 +1,9 @@
 # Sales Market Pulse — Cursor
 
-A Cursor-branded internal **sales briefing dashboard**: market snapshot + Cursor-relevant news with a "why this matters" sales angle on every story. Static, **stubbed** data — no external APIs.
+A Cursor-branded internal **sales briefing dashboard**. Combines:
+
+- **Live pulse** — real-time stories from **Hacker News** (free public `hn.algolia.com` API, no key, no auth) scoped to **Cursor-relevant categories**: Cursor, AI coding tools, Developer experience, Enterprise AI.
+- **Curated briefings** — human-authored stories with a Cursor sales angle and copy-pastable **talking points**.
 
 **Built by Hobi Lew.**
 
@@ -9,14 +12,13 @@ A Cursor-branded internal **sales briefing dashboard**: market snapshot + Cursor
 
 ## Features
 
-- **Daily brief** banner with rep-facing takeaway and stub disclaimer
-- **Market snapshot** grouped by Indices / AI infra / Dev tools, with mini sparklines and color-coded change %
-- **News briefings** with full multi-paragraph stories and a Cursor sales angle on every item
-- **Talking points** per story with one-click **copy to clipboard**
-- **Search** (slash to focus), multi-select **topic chips**, and **sort** controls
-- **Light / dark theme toggle** with system-preference default and saved choice
-- **Refresh** button to re-pull stub JSON without a page reload
-- Polished Cursor-branded shell, sticky header, footer attribution, and small touches (toasts, skeletons, fade-in)
+- **Daily brief** banner with stat counts and "live data fetched <relative time>"
+- **Live pulse** grid of HN stories with category chips, sort (newest / points / discussion), domain, points, comments, and links to both the article and the HN thread
+- **Curated briefings** with `summary`, full `article`, **Cursor sales angle**, and **Copy talking points**
+- Global **search** across live + curated content (press `/` to focus, `Esc` to clear)
+- Light / dark **theme toggle** (system preference default, persisted)
+- Manual **Refresh** + **auto-refresh** every 5 min when the tab is visible
+- Cursor-branded shell (gradient mark, sticky header, footer attribution)
 
 ## Run locally
 
@@ -29,22 +31,38 @@ python3 -m http.server 8765
 
 Open [http://localhost:8765](http://localhost:8765).
 
+You need an internet connection — the Live pulse fetches from `hn.algolia.com`. The curated briefings still render if HN is unreachable.
+
 ## Project layout
 
-- `index.html` — UI, branding, interactions (single-file app)
-- `stub/market.json` — grouped tickers with `history` arrays for sparklines
-- `stub/news.json` — briefings: `summary`, `article[]`, `relevance[]`, `talkingPoints[]`, plus `dailyBrief`
+- `index.html` — UI, branding, live HN fetch, curated rendering, interactions (single file)
+- `stub/news.json` — curated briefings (`summary`, `article[]`, `relevance[]`, `talkingPoints[]`) + `dailyBrief`
 - `prd.md` — local copy of the product requirements (mirrors Notion)
 
-## Editing stub content
+## Tuning the Live pulse
 
-All copy lives in JSON — no code changes needed:
+Open `index.html` and edit the `PULSE_CATEGORIES` array near the top of the `<script>`:
 
-- **Add a ticker:** append to a group's `quotes` array in `market.json`. `history` should be ~12 numbers ending at the current value.
-- **Add a story:** append to `items` in `news.json`. Required-ish fields: `id`, `headline`, `source`, `publishedAt`, `tags`. Optional: `summary`, `article`, `relevance`, `talkingPoints`.
+```js
+const PULSE_CATEGORIES = [
+  { id: "cursor",     label: "Cursor",           query: "cursor ai editor" },
+  { id: "ai-coding",  label: "AI coding tools",  query: "ai coding assistant copilot" },
+  // …
+];
+```
 
-## Roadmap (Phase 2)
+Algolia's `query` is fuzzy full-text — use plain keywords, not boolean operators.
 
-- Swap stub fetches for real market + news providers (back-end key handling)
-- Per-rep saved filters and pinning
+## Editing curated briefings
+
+All copy lives in `stub/news.json`:
+
+- **Add a story:** append to `items`. Fields: `id`, `headline`, `source`, `publishedAt`, `tags`. Optional: `summary`, `article[]`, `relevance[]`, `talkingPoints[]`.
+- **Update the daily brief:** edit the top-level `dailyBrief` string.
+
+## Roadmap (Phase 2.x)
+
+- Additional free sources (Reddit JSON, Lobste.rs, RSS via a small proxy)
+- Auto-generated daily brief from the live pulse
+- Per-rep saved searches and pinning
 - Slack export of the daily brief

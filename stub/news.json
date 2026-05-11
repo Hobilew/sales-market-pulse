@@ -1,11 +1,11 @@
 {
-  "disclaimer": "Simulated briefings for MVP — not live news. Each story includes context and sales relevance in stub form.",
-  "dailyBrief": "Today's reps should lead with governance: enterprises are tightening AI-coding policy, but DX budgets are still green. Pair Cursor's editor-native story with a crisp pilot scope and a security-friendly rollout plan.",
+  "disclaimer": "Briefings are curated stubs (human-authored sales angles); the Live pulse feed is real news from Hacker News.",
+  "dailyBrief": "Lead with governance: enterprises are tightening AI-coding policy, but developer-experience budgets are still green. Pair Cursor's editor-native story with a crisp pilot scope and a security-friendly rollout plan.",
   "items": [
     {
       "id": "n1",
       "headline": "Enterprise IDEs double down on AI coding agents inside the editor",
-      "source": "StubWire",
+      "source": "Briefing",
       "publishedAt": "2026-05-11T14:12:00Z",
       "tags": ["AI devtools", "Enterprise sales"],
       "summary": "Buyers want governance and workflow depth, not just better autocomplete.",
@@ -28,7 +28,7 @@
     {
       "id": "n2",
       "headline": "New buyer checklist circulating for AI-assisted software development tools",
-      "source": "StubWire",
+      "source": "Briefing",
       "publishedAt": "2026-05-11T13:05:00Z",
       "tags": ["Procurement", "Cursor"],
       "summary": "Procurement is asking sharper questions about data handling, indemnity, and ROI baselines.",
@@ -51,7 +51,7 @@
     {
       "id": "n3",
       "headline": "Security leaders issue guidance on AI code assistants and supply-chain risk",
-      "source": "StubDigest",
+      "source": "Briefing",
       "publishedAt": "2026-05-11T09:40:00Z",
       "tags": ["Security/compliance", "AI devtools"],
       "summary": "Security teams want centralized policy with decentralized adoption — visibility without slowing devs.",
@@ -74,7 +74,7 @@
     {
       "id": "n4",
       "headline": "CIO survey: 'developer experience' budgets rise as hiring stays tight",
-      "source": "StubInsights",
+      "source": "Briefing",
       "publishedAt": "2026-05-10T16:20:00Z",
       "tags": ["Enterprise sales", "AI devtools"],
       "summary": "DX is now a real budget line item — and it's where AI-coding tools win the easiest sponsorship.",
@@ -97,7 +97,7 @@
     {
       "id": "n5",
       "headline": "Regulated industries pilot 'controlled' AI coding with stricter change management",
-      "source": "StubRegulatory Review",
+      "source": "Briefing",
       "publishedAt": "2026-05-09T11:55:00Z",
       "tags": ["Security/compliance", "Procurement"],
       "summary": "Banks and healthtech are running scoped pilots — slower cycles, larger deal size, higher governance bar.",

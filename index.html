@@ -6,7 +6,7 @@
     <title>Sales Market Pulse · Cursor</title>
     <meta
       name="description"
-      content="Sales Market Pulse — a Cursor-branded sales briefing dashboard with stubbed market data and Cursor-relevant news. Built by Hobi Lew."
+      content="Sales Market Pulse — a Cursor-branded sales briefing dashboard. Live news from Hacker News scoped to Cursor relevance, plus curated talking points. Built by Hobi Lew."
     />
     <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 2 L21 12 L13 14 L11 22 Z' fill='%23a78bfa'/></svg>" />
     <style>
@@ -71,276 +71,129 @@
       a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--border-strong); }
       a:hover { color: var(--text-strong); border-bottom-color: var(--accent); }
 
-      /* ---------- Header ---------- */
+      /* Header */
       .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
+        position: sticky; top: 0; z-index: 20;
         backdrop-filter: saturate(140%) blur(10px);
         background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
         border-bottom: 1px solid var(--border);
       }
       .topbar-inner {
-        max-width: 1280px;
-        margin: 0 auto;
+        max-width: 1180px; margin: 0 auto;
         padding: 0.85rem 1.25rem;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: 1rem;
-        align-items: center;
+        display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center;
       }
       .brand { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
       .brand-mark {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
+        width: 34px; height: 34px; border-radius: 9px;
         background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, var(--accent-3) 100%);
-        display: grid;
-        place-items: center;
+        display: grid; place-items: center;
         box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 60%, transparent);
       }
       .brand-mark svg { width: 18px; height: 18px; fill: #0a0a0a; }
       .brand-text { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
       .brand-title {
-        font-weight: 700;
-        font-size: 1rem;
-        letter-spacing: -0.01em;
-        color: var(--text-strong);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-weight: 700; font-size: 1rem; letter-spacing: -0.01em;
+        color: var(--text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
-      .brand-sub {
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        color: var(--muted);
-        margin-top: 2px;
-        letter-spacing: 0.02em;
-      }
+      .brand-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 2px; letter-spacing: 0.02em; }
       .brand-sub .dot { color: var(--accent); }
 
       .toolbar { display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
-      .search {
-        position: relative;
-        min-width: 220px;
-      }
+      .search { position: relative; min-width: 220px; }
       .search input {
-        width: 100%;
-        padding: 0.55rem 0.7rem 0.55rem 2rem;
-        font: inherit;
-        font-size: 0.9rem;
-        color: var(--text);
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        outline: none;
+        width: 100%; padding: 0.55rem 0.7rem 0.55rem 2rem;
+        font: inherit; font-size: 0.9rem;
+        color: var(--text); background: var(--panel);
+        border: 1px solid var(--border); border-radius: 10px; outline: none;
         transition: border-color 0.15s, box-shadow 0.15s;
       }
       .search input::placeholder { color: var(--muted); }
-      .search input:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
-      }
-      .search svg {
-        position: absolute;
-        left: 0.6rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 14px;
-        height: 14px;
-        color: var(--muted);
-      }
-      .kbd {
-        position: absolute;
-        right: 0.45rem;
-        top: 50%;
-        transform: translateY(-50%);
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        color: var(--muted);
-        background: var(--panel-2);
-        border: 1px solid var(--border);
-        padding: 1px 6px;
-        border-radius: 5px;
-      }
+      .search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+      .search svg { position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--muted); }
+      .kbd { position: absolute; right: 0.45rem; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 0.66rem; color: var(--muted); background: var(--panel-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px; }
       .icon-btn {
-        appearance: none;
-        background: var(--panel);
-        color: var(--text);
-        border: 1px solid var(--border);
-        padding: 0.45rem 0.6rem;
-        border-radius: 10px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font: inherit;
-        font-size: 0.85rem;
+        appearance: none; background: var(--panel); color: var(--text);
+        border: 1px solid var(--border); padding: 0.45rem 0.6rem; border-radius: 10px;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
+        font: inherit; font-size: 0.85rem;
         transition: border-color 0.15s, transform 0.05s, background 0.15s;
       }
       .icon-btn:hover { border-color: var(--accent); }
       .icon-btn:active { transform: translateY(1px); }
       .icon-btn svg { width: 14px; height: 14px; }
+      .icon-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
 
-      /* ---------- Layout ---------- */
+      /* Layout */
       main {
-        max-width: 1280px;
-        margin: 0 auto;
+        max-width: 1180px; margin: 0 auto;
         padding: 1.25rem 1.25rem 3rem;
-        display: grid;
-        grid-template-columns: minmax(280px, 1fr) minmax(0, 2.4fr);
-        gap: 1.1rem;
-        align-items: start;
+        display: grid; grid-template-columns: 1fr; gap: 1.1rem;
       }
-      @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
-
-      .grid-full { grid-column: 1 / -1; }
-
       .card {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1rem 1.1rem;
-        box-shadow: var(--shadow);
+        background: var(--panel); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow);
       }
-      .card.tight { padding: 0.85rem 1rem; }
       .card-h2 {
-        margin: 0 0 0.85rem;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        margin: 0 0 0.85rem; font-size: 0.72rem; text-transform: uppercase;
+        letter-spacing: 0.08em; color: var(--muted);
+        display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
       }
       .card-h2 .badge {
-        font-family: var(--mono);
-        font-size: 0.65rem;
-        padding: 1px 6px;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        color: var(--muted);
-        text-transform: none;
-        letter-spacing: 0;
+        font-family: var(--mono); font-size: 0.65rem; padding: 1px 6px;
+        border: 1px solid var(--border); border-radius: 999px; color: var(--muted);
+        text-transform: none; letter-spacing: 0;
+      }
+      .card-h2 .badge.live {
+        color: var(--pos);
+        border-color: color-mix(in srgb, var(--pos) 45%, var(--border));
+        background: color-mix(in srgb, var(--pos) 10%, var(--panel));
+        display: inline-flex; align-items: center; gap: 0.35rem;
+      }
+      .live-dot {
+        display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+        background: var(--pos);
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--pos) 60%, transparent);
+        animation: pulseDot 1.8s infinite;
+      }
+      @keyframes pulseDot {
+        0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--pos) 60%, transparent); }
+        70%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--pos) 0%, transparent); }
+        100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--pos) 0%, transparent); }
       }
 
-      /* ---------- Daily brief ---------- */
+      /* Daily brief */
       .brief {
-        position: relative;
-        overflow: hidden;
-        background:
-          linear-gradient(135deg,
-            color-mix(in srgb, var(--accent) 16%, var(--panel)) 0%,
-            color-mix(in srgb, var(--accent-2) 10%, var(--panel)) 60%,
-            var(--panel) 100%);
+        position: relative; overflow: hidden;
+        background: linear-gradient(135deg,
+          color-mix(in srgb, var(--accent) 16%, var(--panel)) 0%,
+          color-mix(in srgb, var(--accent-2) 10%, var(--panel)) 60%, var(--panel) 100%);
         border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
       }
       .brief::after {
-        content: "";
-        position: absolute;
-        inset: -1px;
+        content: ""; position: absolute; inset: -1px;
         background: radial-gradient(600px 200px at 90% 10%, color-mix(in srgb, var(--accent-3) 18%, transparent), transparent 60%);
         pointer-events: none;
       }
       .brief .label {
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
+        font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--accent);
       }
-      .brief p {
-        margin: 0.4rem 0 0;
-        font-size: 1.02rem;
-        color: var(--text-strong);
-        max-width: 70ch;
-      }
-      .brief .meta-row {
-        margin-top: 0.7rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem 1rem;
-        font-size: 0.78rem;
-        color: var(--muted);
-        align-items: center;
-      }
-      .stat {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 0.35rem;
-      }
-      .stat .num {
-        font-family: var(--mono);
-        font-weight: 600;
-        color: var(--text-strong);
-      }
+      .brief p { margin: 0.4rem 0 0; font-size: 1.02rem; color: var(--text-strong); max-width: 70ch; }
+      .brief .meta-row { margin-top: 0.7rem; display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; font-size: 0.78rem; color: var(--muted); align-items: center; }
+      .stat { display: inline-flex; align-items: baseline; gap: 0.35rem; }
+      .stat .num { font-family: var(--mono); font-weight: 600; color: var(--text-strong); }
 
-      /* ---------- Market ---------- */
-      .market-group { margin-top: 0.5rem; }
-      .market-group:first-child { margin-top: 0; }
-      .market-group h3 {
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--muted);
-        margin: 0 0 0.45rem;
-      }
-      .quote {
-        display: grid;
-        grid-template-columns: minmax(48px, auto) 1fr 60px auto;
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.55rem 0.5rem;
-        border-radius: var(--radius-sm);
-        transition: background 0.12s, transform 0.05s;
-      }
-      .quote + .quote { border-top: 1px dashed var(--border); }
-      .quote:hover { background: var(--panel-2); }
-      .quote .sym {
-        font-family: var(--mono);
-        font-weight: 700;
-        color: var(--text-strong);
-        letter-spacing: 0.02em;
-      }
-      .quote .name {
-        color: var(--muted);
-        font-size: 0.85rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .quote .spark { width: 60px; height: 22px; display: block; }
-      .quote .price-block {
-        text-align: right;
-        font-family: var(--mono);
-        line-height: 1.15;
-      }
-      .quote .last { font-size: 0.92rem; color: var(--text-strong); }
-      .quote .chg { font-size: 0.78rem; }
-      .pos { color: var(--pos); }
-      .neg { color: var(--neg); }
-
-      /* ---------- News filters ---------- */
+      /* Filters */
       .filter-bar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.5rem 0.6rem;
-        padding-bottom: 0.85rem;
-        margin-bottom: 0.85rem;
-        border-bottom: 1px solid var(--border);
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem;
+        padding-bottom: 0.85rem; margin-bottom: 0.85rem; border-bottom: 1px solid var(--border);
       }
       .chip-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
       .chip {
-        appearance: none;
-        cursor: pointer;
-        font: inherit;
-        font-size: 0.76rem;
-        padding: 0.28rem 0.65rem;
-        border-radius: 999px;
-        background: var(--chip);
-        color: var(--text);
+        appearance: none; cursor: pointer; font: inherit; font-size: 0.76rem;
+        padding: 0.28rem 0.65rem; border-radius: 999px;
+        background: var(--chip); color: var(--text);
         border: 1px solid var(--border);
         transition: background 0.15s, border-color 0.15s, color 0.15s;
       }
@@ -352,113 +205,91 @@
       }
       .filter-spacer { flex: 1 1 1rem; }
       select.sort {
-        background: var(--panel);
-        color: var(--text);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 0.42rem 0.6rem;
-        font: inherit;
-        font-size: 0.85rem;
+        background: var(--panel); color: var(--text);
+        border: 1px solid var(--border); border-radius: 10px;
+        padding: 0.42rem 0.6rem; font: inherit; font-size: 0.85rem;
       }
 
-      /* ---------- News card ---------- */
+      /* Live pulse list */
+      .pulse-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+      @media (max-width: 760px) { .pulse-grid { grid-template-columns: 1fr; } }
+      .pulse-item {
+        padding: 0.85rem 0.95rem; border: 1px solid var(--border);
+        border-radius: var(--radius-sm); background: var(--panel-2);
+        display: flex; flex-direction: column; gap: 0.45rem;
+        transition: border-color 0.15s, transform 0.05s;
+        animation: fadeUp 0.3s ease both;
+      }
+      .pulse-item:hover { border-color: var(--border-strong); }
+      .pulse-title { color: var(--text-strong); font-weight: 600; font-size: 0.96rem; line-height: 1.34; margin: 0; }
+      .pulse-title a { color: inherit; border-bottom: 1px dotted transparent; }
+      .pulse-title a:hover { border-bottom-color: var(--accent); color: var(--text-strong); }
+      .pulse-meta { display: flex; gap: 0.4rem 0.7rem; flex-wrap: wrap; font-size: 0.74rem; color: var(--muted); align-items: center; }
+      .pulse-meta .domain { font-family: var(--mono); }
+      .pulse-meta .num { font-family: var(--mono); color: var(--text); }
+      .pulse-cats { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+      .pulse-cat {
+        font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px;
+        background: var(--chip-active);
+        border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+        color: var(--text-strong);
+      }
+      .pulse-actions { display: flex; gap: 0.6rem; font-size: 0.74rem; color: var(--muted); }
+      .pulse-actions a { border-bottom: none; color: var(--muted); }
+      .pulse-actions a:hover { color: var(--accent); }
+      .pulse-empty {
+        padding: 1.2rem; text-align: center; color: var(--muted); font-size: 0.92rem;
+      }
+
+      /* News briefings */
       .news-list { display: grid; gap: 1rem; }
       .news-item {
-        border: 1px solid var(--border);
-        background: var(--panel);
-        border-radius: var(--radius);
-        padding: 1.1rem 1.15rem 1rem;
+        border: 1px solid var(--border); background: var(--panel);
+        border-radius: var(--radius); padding: 1.1rem 1.15rem 1rem;
         transition: border-color 0.15s, transform 0.05s;
         animation: fadeUp 0.35s ease both;
       }
       .news-item:hover { border-color: var(--border-strong); }
       .news-item h3 {
-        margin: 0 0 0.35rem;
-        font-size: 1.1rem;
-        font-weight: 650;
-        line-height: 1.3;
-        color: var(--text-strong);
-        letter-spacing: -0.005em;
+        margin: 0 0 0.35rem; font-size: 1.1rem; font-weight: 650;
+        line-height: 1.3; color: var(--text-strong); letter-spacing: -0.005em;
       }
-      .news-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem 0.75rem;
-        align-items: center;
-        font-size: 0.78rem;
-        color: var(--muted);
-        margin-bottom: 0.55rem;
-      }
+      .news-meta { display: flex; flex-wrap: wrap; gap: 0.45rem 0.75rem; align-items: center; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.55rem; }
       .news-meta .dot { opacity: 0.6; }
-      .news-summary {
-        margin: 0 0 0.6rem;
-        font-size: 0.95rem;
-        color: var(--text);
-      }
+      .news-summary { margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--text); }
       details.section { margin-top: 0.55rem; }
       details.section > summary {
-        cursor: pointer;
-        list-style: none;
-        font-size: 0.78rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.25rem 0;
-        user-select: none;
+        cursor: pointer; list-style: none;
+        font-size: 0.78rem; color: var(--muted);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        padding: 0.25rem 0; user-select: none;
       }
       details.section > summary::-webkit-details-marker { display: none; }
       details.section > summary::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-right: 1.5px solid currentColor;
-        border-bottom: 1.5px solid currentColor;
-        transform: rotate(-45deg);
-        transition: transform 0.18s;
+        content: ""; width: 8px; height: 8px;
+        border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+        transform: rotate(-45deg); transition: transform 0.18s;
       }
       details.section[open] > summary::before { transform: rotate(45deg); }
-
       .article-body { font-size: 0.93rem; line-height: 1.65; color: var(--text); }
       .article-body p { margin: 0 0 0.6rem; }
       .article-body p:last-child { margin-bottom: 0; }
-
       .relevance {
-        margin-top: 0.7rem;
-        padding: 0.85rem 0.95rem;
-        border-radius: 12px;
+        margin-top: 0.7rem; padding: 0.85rem 0.95rem; border-radius: 12px;
         border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
         background: linear-gradient(180deg,
           color-mix(in srgb, var(--accent) 12%, var(--panel)),
           color-mix(in srgb, var(--accent) 5%, var(--panel)));
       }
-      .relevance-head {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.45rem;
-      }
-      .relevance-head h4 {
-        margin: 0;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--accent);
-        font-weight: 700;
-      }
+      .relevance-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.45rem; }
+      .relevance-head h4 { margin: 0; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; }
       .relevance-head .spacer { flex: 1; }
       .copy-btn {
-        appearance: none;
-        cursor: pointer;
-        font: inherit;
-        font-size: 0.74rem;
-        color: var(--text);
-        background: color-mix(in srgb, var(--accent) 14%, var(--panel-2));
+        appearance: none; cursor: pointer; font: inherit; font-size: 0.74rem;
+        color: var(--text); background: color-mix(in srgb, var(--accent) 14%, var(--panel-2));
         border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
-        border-radius: 8px;
-        padding: 0.25rem 0.55rem;
+        border-radius: 8px; padding: 0.25rem 0.55rem;
         transition: background 0.15s, border-color 0.15s;
       }
       .copy-btn:hover { background: color-mix(in srgb, var(--accent) 22%, var(--panel-2)); }
@@ -469,81 +300,46 @@
       }
       .talking-list { margin: 0.55rem 0 0; padding-left: 1.05rem; font-size: 0.86rem; }
       .talking-list li { margin: 0.2rem 0; }
+      .tag { font-size: 0.7rem; font-family: var(--mono); background: var(--chip); color: var(--muted); padding: 0.1rem 0.5rem; border-radius: 999px; border: 1px solid var(--border); }
 
-      .tag {
-        font-size: 0.7rem;
-        font-family: var(--mono);
-        background: var(--chip);
-        color: var(--muted);
-        padding: 0.1rem 0.5rem;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-      }
-
-      .news-empty {
-        padding: 2rem 1rem;
-        text-align: center;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      /* ---------- Footer ---------- */
+      /* Footer + misc */
       footer {
-        max-width: 1280px;
-        margin: 0 auto;
+        max-width: 1180px; margin: 0 auto;
         padding: 0 1.25rem 2.5rem;
-        font-size: 0.82rem;
-        color: var(--muted);
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem 1rem;
-        align-items: center;
-        justify-content: space-between;
+        font-size: 0.82rem; color: var(--muted);
+        display: flex; flex-wrap: wrap; gap: 0.6rem 1rem;
+        align-items: center; justify-content: space-between;
       }
       footer .credit { display: inline-flex; align-items: center; gap: 0.4rem; }
       footer .credit strong { color: var(--text-strong); font-weight: 600; }
       footer .links { display: inline-flex; gap: 0.85rem; flex-wrap: wrap; }
 
-      /* ---------- Misc ---------- */
       .toast {
-        position: fixed;
-        bottom: 1.25rem;
-        left: 50%;
+        position: fixed; bottom: 1.25rem; left: 50%;
         transform: translateX(-50%) translateY(8px);
-        background: var(--panel-2);
-        color: var(--text-strong);
-        border: 1px solid var(--border-strong);
-        padding: 0.55rem 0.85rem;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        opacity: 0;
-        transition: opacity 0.18s, transform 0.18s;
-        pointer-events: none;
-        z-index: 50;
+        background: var(--panel-2); color: var(--text-strong);
+        border: 1px solid var(--border-strong); padding: 0.55rem 0.85rem;
+        border-radius: 10px; font-size: 0.85rem; opacity: 0;
+        transition: opacity 0.18s, transform 0.18s; pointer-events: none; z-index: 50;
       }
-      .toast[data-visible="true"] {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+      .toast[data-visible="true"] { opacity: 1; transform: translateX(-50%) translateY(0); }
       .skeleton {
-        background: linear-gradient(90deg, var(--panel-2), color-mix(in srgb, var(--panel-2) 70%, var(--border)), var(--panel-2));
-        background-size: 200% 100%;
-        animation: shimmer 1.4s linear infinite;
-        border-radius: 6px;
-        height: 0.9em;
-        width: 100%;
+        background: linear-gradient(90deg, var(--panel-2),
+          color-mix(in srgb, var(--panel-2) 70%, var(--border)), var(--panel-2));
+        background-size: 200% 100%; animation: shimmer 1.4s linear infinite;
+        border-radius: 6px; height: 0.9em; width: 100%;
       }
       .skeleton + .skeleton { margin-top: 0.5rem; }
       @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(6px); }
-        to { opacity: 1; transform: translateY(0); }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+      .error { color: var(--neg); font-size: 0.9rem; line-height: 1.55; }
+      .source-note {
+        font-size: 0.78rem; color: var(--muted); margin: -0.35rem 0 0.85rem; max-width: 60rem;
       }
-
-      .error {
-        color: var(--neg);
-        font-size: 0.9rem;
-        line-height: 1.55;
+      .source-note code {
+        font-family: var(--mono); font-size: 0.75rem;
+        background: var(--panel-2); padding: 0.05rem 0.35rem; border-radius: 5px;
+        border: 1px solid var(--border);
       }
     </style>
   </head>
@@ -564,7 +360,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path>
             </svg>
-            <input id="q" type="search" placeholder="Search briefings, tickers, tags…" aria-label="Search briefings" />
+            <input id="q" type="search" placeholder="Search live pulse + briefings…" aria-label="Search live pulse and briefings" />
             <span class="kbd" aria-hidden="true">/</span>
           </div>
           <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme">
@@ -574,7 +370,7 @@
             </svg>
             <span id="theme-label">Theme</span>
           </button>
-          <button id="refresh" class="icon-btn" type="button" aria-label="Refresh data">
+          <button id="refresh" class="icon-btn" type="button" aria-label="Refresh live data">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12a9 9 0 1 1-3.5-7.1"/><path d="M21 4v5h-5"/>
             </svg>
@@ -585,39 +381,55 @@
     </div>
 
     <main>
-      <section class="card brief grid-full" aria-labelledby="brief-h">
+      <section class="card brief" aria-labelledby="brief-h">
         <div class="label" id="brief-h">Daily brief</div>
         <p id="brief-text"><span class="skeleton" style="width:80%"></span></p>
         <div class="meta-row">
           <span class="stat"><span class="num" id="stat-stories">—</span> briefings</span>
-          <span class="stat"><span class="num" id="stat-tickers">—</span> tickers tracked</span>
-          <span class="stat"><span>As of</span> <span class="num" id="stat-asof">—</span></span>
+          <span class="stat"><span class="num" id="stat-live">—</span> live stories</span>
+          <span class="stat"><span>Live data fetched</span> <span class="num" id="stat-fetched">—</span></span>
           <span id="stat-disclaimer" style="opacity: 0.85"></span>
         </div>
       </section>
 
-      <section class="card" aria-labelledby="market-h">
-        <h2 class="card-h2" id="market-h">
-          Market snapshot
-          <span class="badge">stub</span>
+      <section class="card" aria-labelledby="pulse-h">
+        <h2 class="card-h2" id="pulse-h">
+          Live pulse
+          <span class="badge live" id="live-badge"><span class="live-dot" aria-hidden="true"></span>HN · live</span>
         </h2>
-        <div id="market-root">
-          <div class="skeleton" style="width:90%"></div>
-          <div class="skeleton" style="width:80%"></div>
-          <div class="skeleton" style="width:75%"></div>
+        <p class="source-note">
+          Real stories from <a href="https://news.ycombinator.com/" target="_blank" rel="noreferrer noopener">Hacker News</a>
+          via the public <code>hn.algolia.com</code> search API (no key, no auth). Categories below are scoped to topics that affect Cursor and the sales role.
+        </p>
+        <div class="filter-bar" role="region" aria-label="Filter live pulse">
+          <div class="chip-row" id="pulse-chips" aria-label="Pulse categories"></div>
+          <div class="filter-spacer"></div>
+          <label for="pulse-sort" class="brand-sub" style="margin-right:0.25rem">Sort</label>
+          <select id="pulse-sort" class="sort" aria-label="Sort live pulse">
+            <option value="newest">Newest first</option>
+            <option value="points">Most points</option>
+            <option value="comments">Most discussed</option>
+          </select>
+        </div>
+        <div id="pulse-root" class="pulse-grid" aria-live="polite">
+          <div class="pulse-item"><div class="skeleton" style="width:80%"></div><div class="skeleton" style="width:60%"></div></div>
+          <div class="pulse-item"><div class="skeleton" style="width:75%"></div><div class="skeleton" style="width:55%"></div></div>
+          <div class="pulse-item"><div class="skeleton" style="width:85%"></div><div class="skeleton" style="width:65%"></div></div>
+          <div class="pulse-item"><div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:50%"></div></div>
         </div>
       </section>
 
       <section class="card" aria-labelledby="news-h">
         <h2 class="card-h2" id="news-h">
-          News briefings
-          <span class="badge">stub</span>
+          Curated briefings
+          <span class="badge">stub · sales angle</span>
         </h2>
+        <p class="source-note">Human-authored stories with a Cursor sales angle and copy-pastable talking points. Edit copy in <code>stub/news.json</code>.</p>
         <div class="filter-bar" role="region" aria-label="Filter briefings">
-          <div class="chip-row" id="chip-row" aria-label="Topic chips"></div>
+          <div class="chip-row" id="news-chips" aria-label="Topic chips"></div>
           <div class="filter-spacer"></div>
-          <label for="sort" class="brand-sub" style="margin-right:0.25rem">Sort</label>
-          <select id="sort" class="sort" aria-label="Sort briefings">
+          <label for="news-sort" class="brand-sub" style="margin-right:0.25rem">Sort</label>
+          <select id="news-sort" class="sort" aria-label="Sort briefings">
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>
             <option value="headline">Headline A–Z</option>
@@ -653,46 +465,64 @@
     <script>
       const $ = (sel) => document.querySelector(sel);
       const newsRoot = $("#news-root");
-      const marketRoot = $("#market-root");
+      const pulseRoot = $("#pulse-root");
+      const newsChips = $("#news-chips");
+      const pulseChips = $("#pulse-chips");
+      const newsSort = $("#news-sort");
+      const pulseSort = $("#pulse-sort");
       const briefText = $("#brief-text");
-      const chipRow = $("#chip-row");
-      const sortSel = $("#sort");
       const search = $("#q");
       const refresh = $("#refresh");
       const themeBtn = $("#theme-toggle");
       const themeLabel = $("#theme-label");
       const toast = $("#toast");
 
+      // ---- Configurable Cursor-relevant categories (HN Algolia queries) ----
+      // Edit this list to tune what the live pulse surfaces.
+      // Algolia's `query` is fuzzy full-text (boolean OR is not honored); use plain keywords.
+      const PULSE_CATEGORIES = [
+        { id: "cursor",      label: "Cursor",           query: "cursor ai editor" },
+        { id: "ai-coding",   label: "AI coding tools",  query: "ai coding assistant copilot" },
+        { id: "devtools",    label: "Developer experience", query: "developer experience tools" },
+        { id: "enterprise",  label: "Enterprise AI",    query: "enterprise ai security procurement" },
+      ];
+      const HN_BASE = "https://hn.algolia.com/api/v1/search";
+      const PER_QUERY = 10;
+      const RECENT_DAYS = 90;
+      const AUTO_REFRESH_MS = 5 * 60 * 1000;
+
       const state = {
-        market: null,
         news: null,
-        activeTags: new Set(),
+        pulse: [],
+        pulseLoadedAt: null,
+        pulseError: null,
+        activeNewsTags: new Set(),
+        activePulseCats: new Set(),
         query: "",
-        sort: "newest",
+        newsSort: "newest",
+        pulseSort: "newest",
       };
 
-      // ---------- Utilities ----------
-      const escapeHtml = (s) =>
-        String(s ?? "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;");
+      // ---- Utilities ----
+      const escapeHtml = (s) => String(s ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
       const formatTime = (iso) => {
         try {
           const d = new Date(iso);
-          return d.toLocaleString(undefined, {
-            month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
-          });
+          return d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
         } catch { return iso ?? ""; }
       };
-      const formatDateOnly = (iso) => {
-        try {
-          const d = new Date(iso);
-          return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-        } catch { return iso ?? ""; }
+      const relativeTime = (input) => {
+        const d = input instanceof Date ? input : new Date(input);
+        const diff = (Date.now() - d.getTime()) / 1000;
+        if (isNaN(diff)) return "";
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+        if (diff < 86400 * 30) return Math.floor(diff / 86400) + "d ago";
+        return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
       };
       const wordCount = (item) => {
         const text = [item.summary, ...(item.article ?? []), ...(item.relevance ?? []), ...(item.talkingPoints ?? [])]
@@ -700,45 +530,20 @@
         return text.trim().split(/\s+/).length;
       };
       const readingMinutes = (item) => Math.max(1, Math.round(wordCount(item) / 220));
-
       const paragraphsHtml = (field) => {
         if (field == null) return "";
         const parts = Array.isArray(field) ? field : [field];
-        return parts
-          .map((p) => String(p).trim())
-          .filter(Boolean)
-          .map((p) => `<p>${escapeHtml(p)}</p>`)
-          .join("");
+        return parts.map((p) => String(p).trim()).filter(Boolean)
+          .map((p) => `<p>${escapeHtml(p)}</p>`).join("");
       };
-
-      const sparklinePath = (history, w = 60, h = 22, pad = 2) => {
-        if (!Array.isArray(history) || history.length < 2) return null;
-        const min = Math.min(...history);
-        const max = Math.max(...history);
-        const range = max - min || 1;
-        const stepX = (w - pad * 2) / (history.length - 1);
-        const points = history.map((v, i) => {
-          const x = pad + i * stepX;
-          const y = h - pad - ((v - min) / range) * (h - pad * 2);
-          return [x, y];
-        });
-        const d = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
-        const last = history[history.length - 1];
-        const first = history[0];
-        const stroke = last >= first ? "var(--pos)" : "var(--neg)";
-        const fillStop = last >= first ? "var(--pos)" : "var(--neg)";
-        const areaD = `${d} L ${(w - pad).toFixed(2)},${(h - pad).toFixed(2)} L ${pad.toFixed(2)},${(h - pad).toFixed(2)} Z`;
-        return { d, areaD, stroke, fillStop };
-      };
-
       const showToast = (msg) => {
         toast.textContent = msg;
         toast.dataset.visible = "true";
         clearTimeout(showToast._t);
-        showToast._t = setTimeout(() => (toast.dataset.visible = "false"), 1600);
+        showToast._t = setTimeout(() => (toast.dataset.visible = "false"), 1700);
       };
 
-      // ---------- Theme ----------
+      // ---- Theme ----
       const setTheme = (t) => {
         document.documentElement.dataset.theme = t;
         themeLabel.textContent = t === "dark" ? "Dark" : "Light";
@@ -755,73 +560,151 @@
         setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
       });
 
-      // ---------- Render: market ----------
-      const renderMarket = () => {
-        const m = state.market;
-        if (!m) return;
-        const groups = m.groups ?? (m.quotes ? [{ id: "all", label: "Tickers", quotes: m.quotes }] : []);
-        if (!groups.length) {
-          marketRoot.innerHTML = `<p class="error">No market data in stub.</p>`;
-          return;
+      // ---- Live pulse: fetch + render ----
+      async function fetchCategory(cat, signal) {
+        const cutoff = Math.floor(Date.now() / 1000) - RECENT_DAYS * 86400;
+        const params = new URLSearchParams({
+          query: cat.query,
+          tags: "story",
+          hitsPerPage: String(PER_QUERY),
+          numericFilters: `created_at_i>${cutoff}`,
+        });
+        const res = await fetch(`${HN_BASE}?${params.toString()}`, { signal, cache: "no-store" });
+        if (!res.ok) throw new Error(`HN ${cat.id} ${res.status}`);
+        const data = await res.json();
+        return (data.hits || []).map((h) => {
+          let domain = "news.ycombinator.com";
+          try { if (h.url) domain = new URL(h.url).host.replace(/^www\./, ""); } catch {}
+          return {
+            id: h.objectID,
+            title: h.title || h.story_title || "(untitled)",
+            url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
+            hnUrl: `https://news.ycombinator.com/item?id=${h.objectID}`,
+            author: h.author,
+            points: h.points ?? 0,
+            comments: h.num_comments ?? 0,
+            createdAt: h.created_at,
+            domain,
+            category: cat.id,
+            categoryLabel: cat.label,
+          };
+        });
+      }
+
+      async function loadPulse() {
+        state.pulseError = null;
+        try {
+          const results = await Promise.allSettled(
+            PULSE_CATEGORIES.map((c) => fetchCategory(c))
+          );
+          const errors = results.filter((r) => r.status === "rejected");
+          const items = results
+            .filter((r) => r.status === "fulfilled")
+            .flatMap((r) => r.value);
+          if (!items.length) {
+            state.pulse = [];
+            state.pulseError = "Live feed unavailable. Hacker News may be rate-limiting; try Refresh.";
+            return;
+          }
+          // Dedupe by HN id; merge categories.
+          const map = new Map();
+          for (const it of items) {
+            if (!map.has(it.id)) map.set(it.id, { ...it, categories: [it.category], categoryLabels: [it.categoryLabel] });
+            else {
+              const ex = map.get(it.id);
+              if (!ex.categories.includes(it.category)) {
+                ex.categories.push(it.category);
+                ex.categoryLabels.push(it.categoryLabel);
+              }
+            }
+          }
+          state.pulse = [...map.values()];
+          state.pulseLoadedAt = new Date();
+          if (errors.length) {
+            console.warn("Some pulse categories failed:", errors);
+          }
+        } catch (e) {
+          console.error(e);
+          state.pulseError = "Couldn't load live pulse. Check your connection and try Refresh.";
         }
-        marketRoot.innerHTML = groups
-          .map((g) => `
-            <div class="market-group">
-              <h3>${escapeHtml(g.label ?? g.id ?? "")}</h3>
-              ${g.quotes
-                .map((q) => {
-                  const sp = sparklinePath(q.history);
-                  const sparkSvg = sp
-                    ? `<svg class="spark" viewBox="0 0 60 22" aria-hidden="true">
-                         <defs>
-                           <linearGradient id="g-${escapeHtml(q.symbol)}" x1="0" x2="0" y1="0" y2="1">
-                             <stop offset="0%" stop-color="${sp.fillStop}" stop-opacity="0.35"/>
-                             <stop offset="100%" stop-color="${sp.fillStop}" stop-opacity="0"/>
-                           </linearGradient>
-                         </defs>
-                         <path d="${sp.areaD}" fill="url(#g-${escapeHtml(q.symbol)})" />
-                         <path d="${sp.d}" fill="none" stroke="${sp.stroke}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                       </svg>`
-                    : `<span class="spark"></span>`;
-                  const pos = (q.changePct ?? 0) >= 0;
-                  const last = typeof q.last === "number" ? q.last.toFixed(2) : escapeHtml(q.last);
-                  const chg = typeof q.changePct === "number"
-                    ? (pos ? "+" : "") + q.changePct.toFixed(2) + "%"
-                    : escapeHtml(q.changePct ?? "");
-                  return `
-                    <div class="quote" title="${escapeHtml(q.name ?? q.symbol)}">
-                      <span class="sym">${escapeHtml(q.symbol)}</span>
-                      <span class="name">${escapeHtml(q.name ?? "")}</span>
-                      ${sparkSvg}
-                      <span class="price-block">
-                        <div class="last">${last}</div>
-                        <div class="chg ${pos ? "pos" : "neg"}">${chg}</div>
-                      </span>
-                    </div>`;
-                })
-                .join("")}
-            </div>`)
-          .join("");
+      }
+
+      const renderPulseChips = () => {
+        pulseChips.innerHTML = PULSE_CATEGORIES.map((c) => {
+          const active = state.activePulseCats.has(c.id);
+          return `<button class="chip" type="button" data-cat="${escapeHtml(c.id)}" aria-pressed="${active}">${escapeHtml(c.label)}</button>`;
+        }).join("");
       };
 
-      // ---------- News: filters + render ----------
+      const filteredPulse = () => {
+        const q = state.query.trim().toLowerCase();
+        const cats = state.activePulseCats;
+        let out = state.pulse.filter((it) => {
+          if (cats.size && !it.categories.some((c) => cats.has(c))) return false;
+          if (!q) return true;
+          const hay = [it.title, it.author, it.domain, ...(it.categoryLabels || [])]
+            .filter(Boolean).join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+        const cmp = {
+          newest:   (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+          points:   (a, b) => (b.points ?? 0) - (a.points ?? 0),
+          comments: (a, b) => (b.comments ?? 0) - (a.comments ?? 0),
+        }[state.pulseSort] || ((a, b) => 0);
+        out.sort(cmp);
+        return out;
+      };
+
+      const renderPulse = () => {
+        if (state.pulseError && !state.pulse.length) {
+          pulseRoot.innerHTML = `<div class="pulse-empty"><p class="error">${escapeHtml(state.pulseError)}</p></div>`;
+          return;
+        }
+        const items = filteredPulse();
+        if (!items.length) {
+          pulseRoot.innerHTML = `<div class="pulse-empty">No live stories match the current filters.<br/>Try clearing the search or category chips.</div>`;
+          return;
+        }
+        pulseRoot.innerHTML = items.map((it) => {
+          const title = escapeHtml(it.title);
+          const cats = (it.categoryLabels || [])
+            .map((l) => `<span class="pulse-cat">${escapeHtml(l)}</span>`).join("");
+          const domain = escapeHtml(it.domain);
+          const author = it.author ? `by ${escapeHtml(it.author)}` : "";
+          const time = escapeHtml(relativeTime(it.createdAt));
+          return `
+            <article class="pulse-item">
+              <div class="pulse-cats">${cats}</div>
+              <h3 class="pulse-title"><a href="${escapeHtml(it.url)}" target="_blank" rel="noreferrer noopener">${title}</a></h3>
+              <div class="pulse-meta">
+                <span class="domain">${domain}</span>
+                ${author ? `<span>${author}</span>` : ""}
+                <span class="num">${it.points} pts</span>
+                <span class="num">${it.comments} comments</span>
+                <span>${time}</span>
+              </div>
+              <div class="pulse-actions">
+                <a href="${escapeHtml(it.url)}" target="_blank" rel="noreferrer noopener">Open story →</a>
+                <a href="${escapeHtml(it.hnUrl)}" target="_blank" rel="noreferrer noopener">HN discussion</a>
+              </div>
+            </article>`;
+        }).join("");
+      };
+
+      // ---- Curated briefings: filters + render ----
       const allTags = () => {
         const set = new Set();
         (state.news?.items ?? []).forEach((i) => (i.tags ?? []).forEach((t) => set.add(t)));
         return [...set].sort();
       };
-
-      const renderChips = () => {
+      const renderNewsChips = () => {
         const tags = allTags();
-        chipRow.innerHTML = tags
-          .map((t) => {
-            const active = state.activeTags.has(t);
-            return `<button class="chip" type="button" data-tag="${escapeHtml(t)}" aria-pressed="${active}">${escapeHtml(t)}</button>`;
-          })
-          .join("");
+        newsChips.innerHTML = tags.map((t) => {
+          const active = state.activeNewsTags.has(t);
+          return `<button class="chip" type="button" data-tag="${escapeHtml(t)}" aria-pressed="${active}">${escapeHtml(t)}</button>`;
+        }).join("");
       };
-
-      const matchesQuery = (item, q) => {
+      const matchesNewsQuery = (item, q) => {
         if (!q) return true;
         const hay = [
           item.headline, item.source, item.summary,
@@ -830,121 +713,112 @@
         ].filter(Boolean).join(" ").toLowerCase();
         return hay.includes(q);
       };
-
-      const filteredItems = () => {
+      const filteredNews = () => {
         const items = state.news?.items ?? [];
         const q = state.query.trim().toLowerCase();
-        const active = state.activeTags;
+        const active = state.activeNewsTags;
         let out = items.filter((i) => {
           if (active.size && !(i.tags ?? []).some((t) => active.has(t))) return false;
-          return matchesQuery(i, q);
+          return matchesNewsQuery(i, q);
         });
         const cmp = {
-          newest: (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
-          oldest: (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt),
+          newest:   (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+          oldest:   (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt),
           headline: (a, b) => String(a.headline).localeCompare(String(b.headline)),
-          source: (a, b) => String(a.source).localeCompare(String(b.source)),
-        }[state.sort] || ((a, b) => 0);
+          source:   (a, b) => String(a.source).localeCompare(String(b.source)),
+        }[state.newsSort] || ((a, b) => 0);
         out.sort(cmp);
         return out;
       };
-
       const renderNews = () => {
         if (!state.news) return;
-        const items = filteredItems();
+        const items = filteredNews();
         if (!items.length) {
-          newsRoot.innerHTML = `<div class="news-empty">No briefings match the current filters.<br/>Clear the search or tag chips to see all stories.</div>`;
+          newsRoot.innerHTML = `<div class="pulse-empty">No briefings match the current filters.</div>`;
           return;
         }
-        newsRoot.innerHTML = items
-          .map((i) => {
-            const headline = escapeHtml(i.headline ?? "Untitled");
-            const src = escapeHtml(i.source ?? "Source");
-            const time = escapeHtml(formatTime(i.publishedAt));
-            const summary = i.summary ? `<p class="news-summary">${escapeHtml(i.summary)}</p>` : "";
-            const tags = (i.tags ?? [])
-              .map((t) => `<span class="tag">${escapeHtml(t)}</span>`)
-              .join("");
-            const articleBody = paragraphsHtml(i.article);
-            const relevanceBody = paragraphsHtml(i.relevance);
-            const talking = (i.talkingPoints ?? [])
-              .map((p) => `<li>${escapeHtml(p)}</li>`)
-              .join("");
-            const minutes = readingMinutes(i);
-            const articleSection = articleBody
-              ? `<details class="section" open>
-                   <summary>Story</summary>
-                   <div class="article-body">${articleBody}</div>
-                 </details>`
-              : "";
-            const relevanceSection = (relevanceBody || talking)
-              ? `<details class="section" open>
-                   <summary>Why this matters</summary>
-                   <div class="relevance">
-                     <div class="relevance-head">
-                       <h4>Cursor sales angle</h4>
-                       <span class="spacer"></span>
-                       ${talking ? `<button class="copy-btn" type="button" data-copy="${escapeHtml((i.talkingPoints ?? []).join("\n• "))}">Copy talking points</button>` : ""}
-                     </div>
-                     ${relevanceBody ? `<div class="article-body">${relevanceBody}</div>` : ""}
-                     ${talking ? `<ul class="talking-list">${talking}</ul>` : ""}
+        newsRoot.innerHTML = items.map((i) => {
+          const headline = escapeHtml(i.headline ?? "Untitled");
+          const src = escapeHtml(i.source ?? "Briefing");
+          const time = escapeHtml(formatTime(i.publishedAt));
+          const summary = i.summary ? `<p class="news-summary">${escapeHtml(i.summary)}</p>` : "";
+          const tags = (i.tags ?? []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+          const articleBody = paragraphsHtml(i.article);
+          const relevanceBody = paragraphsHtml(i.relevance);
+          const talking = (i.talkingPoints ?? []).map((p) => `<li>${escapeHtml(p)}</li>`).join("");
+          const minutes = readingMinutes(i);
+          const articleSection = articleBody
+            ? `<details class="section" open><summary>Story</summary><div class="article-body">${articleBody}</div></details>`
+            : "";
+          const relevanceSection = (relevanceBody || talking)
+            ? `<details class="section" open>
+                 <summary>Why this matters</summary>
+                 <div class="relevance">
+                   <div class="relevance-head">
+                     <h4>Cursor sales angle</h4>
+                     <span class="spacer"></span>
+                     ${talking ? `<button class="copy-btn" type="button" data-copy="${escapeHtml((i.talkingPoints ?? []).join("\n• "))}">Copy talking points</button>` : ""}
                    </div>
-                 </details>`
-              : "";
-            return `
-              <article class="news-item" data-id="${escapeHtml(i.id ?? "")}">
-                <h3>${headline}</h3>
-                <div class="news-meta">
-                  <span>${src}</span>
-                  <span class="dot">•</span>
-                  <span>${time}</span>
-                  <span class="dot">•</span>
-                  <span>${minutes} min read</span>
-                  ${tags ? `<span class="dot">•</span>${tags}` : ""}
-                </div>
-                ${summary}
-                ${articleSection}
-                ${relevanceSection}
-              </article>`;
-          })
-          .join("");
+                   ${relevanceBody ? `<div class="article-body">${relevanceBody}</div>` : ""}
+                   ${talking ? `<ul class="talking-list">${talking}</ul>` : ""}
+                 </div>
+               </details>`
+            : "";
+          return `
+            <article class="news-item" data-id="${escapeHtml(i.id ?? "")}">
+              <h3>${headline}</h3>
+              <div class="news-meta">
+                <span>${src}</span>
+                <span class="dot">•</span>
+                <span>${time}</span>
+                <span class="dot">•</span>
+                <span>${minutes} min read</span>
+                ${tags ? `<span class="dot">•</span>${tags}` : ""}
+              </div>
+              ${summary}
+              ${articleSection}
+              ${relevanceSection}
+            </article>`;
+        }).join("");
       };
 
-      // ---------- Daily brief / stats ----------
+      // ---- Brief / stats ----
       const renderBrief = () => {
-        const brief = state.news?.dailyBrief ?? state.market?.summary ?? "Stub data loaded — explore the tickers and briefings below.";
+        const brief = state.news?.dailyBrief ?? "Briefings loaded — explore the live pulse and curated briefings below.";
         briefText.textContent = brief;
         $("#stat-stories").textContent = state.news?.items?.length ?? 0;
-        const tickerCount = (state.market?.groups ?? []).reduce((acc, g) => acc + (g.quotes?.length ?? 0), 0)
-          || (state.market?.quotes?.length ?? 0);
-        $("#stat-tickers").textContent = tickerCount;
-        $("#stat-asof").textContent = formatDateOnly(state.market?.asOf);
-        const disc = [state.market?.disclaimer, state.news?.disclaimer].filter(Boolean).join(" ");
-        $("#stat-disclaimer").textContent = disc;
+        $("#stat-live").textContent = state.pulse.length;
+        $("#stat-fetched").textContent = state.pulseLoadedAt
+          ? relativeTime(state.pulseLoadedAt)
+          : (state.pulseError ? "failed" : "—");
+        $("#stat-disclaimer").textContent = state.news?.disclaimer ?? "";
       };
 
-      // ---------- Events ----------
-      chipRow.addEventListener("click", (e) => {
-        const btn = e.target.closest(".chip");
-        if (!btn) return;
-        const tag = btn.dataset.tag;
-        if (state.activeTags.has(tag)) state.activeTags.delete(tag);
-        else state.activeTags.add(tag);
-        renderChips();
-        renderNews();
+      // ---- Events ----
+      pulseChips.addEventListener("click", (e) => {
+        const btn = e.target.closest(".chip"); if (!btn) return;
+        const id = btn.dataset.cat;
+        if (state.activePulseCats.has(id)) state.activePulseCats.delete(id);
+        else state.activePulseCats.add(id);
+        renderPulseChips(); renderPulse();
       });
-
-      sortSel.addEventListener("change", () => { state.sort = sortSel.value; renderNews(); });
-      search.addEventListener("input", () => { state.query = search.value; renderNews(); });
+      newsChips.addEventListener("click", (e) => {
+        const btn = e.target.closest(".chip"); if (!btn) return;
+        const tag = btn.dataset.tag;
+        if (state.activeNewsTags.has(tag)) state.activeNewsTags.delete(tag);
+        else state.activeNewsTags.add(tag);
+        renderNewsChips(); renderNews();
+      });
+      pulseSort.addEventListener("change", () => { state.pulseSort = pulseSort.value; renderPulse(); });
+      newsSort.addEventListener("change", () => { state.newsSort = newsSort.value; renderNews(); });
+      search.addEventListener("input", () => { state.query = search.value; renderPulse(); renderNews(); });
 
       newsRoot.addEventListener("click", async (e) => {
-        const btn = e.target.closest(".copy-btn");
-        if (!btn) return;
+        const btn = e.target.closest(".copy-btn"); if (!btn) return;
         const text = "• " + (btn.dataset.copy || "");
         try {
           await navigator.clipboard.writeText(text);
-          btn.dataset.copied = "true";
-          btn.textContent = "Copied";
+          btn.dataset.copied = "true"; btn.textContent = "Copied";
           showToast("Talking points copied to clipboard");
           setTimeout(() => { btn.dataset.copied = "false"; btn.textContent = "Copy talking points"; }, 1400);
         } catch {
@@ -952,46 +826,51 @@
         }
       });
 
-      refresh.addEventListener("click", () => load(true));
+      refresh.addEventListener("click", async () => {
+        refresh.disabled = true;
+        showToast("Refreshing live pulse…");
+        await loadPulse();
+        renderPulse(); renderBrief();
+        refresh.disabled = false;
+        showToast(state.pulseError ? "Refresh failed" : "Live pulse updated");
+      });
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "/" && document.activeElement !== search) {
-          e.preventDefault();
-          search.focus();
-          search.select();
+          e.preventDefault(); search.focus(); search.select();
         }
         if (e.key === "Escape" && document.activeElement === search) {
-          search.value = "";
-          state.query = "";
-          renderNews();
+          search.value = ""; state.query = ""; renderPulse(); renderNews();
         }
       });
 
-      // ---------- Load ----------
-      async function load(isRefresh = false) {
+      // Auto-refresh live pulse every 5 minutes when the tab is visible.
+      setInterval(async () => {
+        if (document.hidden) return;
+        await loadPulse(); renderPulse(); renderBrief();
+      }, AUTO_REFRESH_MS);
+
+      // ---- Boot ----
+      async function loadStubs() {
         try {
-          if (isRefresh) showToast("Refreshing…");
-          const [mRes, nRes] = await Promise.all([
-            fetch("./stub/market.json", { cache: "no-store" }),
-            fetch("./stub/news.json", { cache: "no-store" }),
-          ]);
-          if (!mRes.ok || !nRes.ok) throw new Error("Failed to load stub JSON");
-          state.market = await mRes.json();
+          const nRes = await fetch("./stub/news.json", { cache: "no-store" });
+          if (!nRes.ok) throw new Error("news " + nRes.status);
           state.news = await nRes.json();
-          renderBrief();
-          renderMarket();
-          renderChips();
-          renderNews();
-          if (isRefresh) showToast("Up to date");
-        } catch (err) {
-          marketRoot.innerHTML = `<p class="error">Could not load data. Serve the folder via <code>python3 -m http.server</code> instead of opening with <code>file://</code>.</p>`;
-          newsRoot.innerHTML = "";
-          briefText.textContent = "Stub data unavailable.";
+        } catch (e) {
+          console.error(e);
+          newsRoot.innerHTML = `<p class="error">Couldn't load <code>stub/news.json</code>. Serve via <code>python3 -m http.server</code> instead of <code>file://</code>.</p>`;
         }
       }
 
-      initTheme();
-      load();
+      (async function boot() {
+        initTheme();
+        await Promise.all([loadStubs(), loadPulse()]);
+        renderPulseChips();
+        renderPulse();
+        renderNewsChips();
+        renderNews();
+        renderBrief();
+      })();
     </script>
   </body>
 </html>

@@ -1,94 +1,125 @@
-# PRD: Sales Market Pulse (MVP)
+# PRD: Sales Market Pulse (v1.1) — Cursor sales briefing
 
-**Source:** [Notion — PRD: Sales Market Pulse (MVP)](https://www.notion.so/35dda74ef0458022b028d6c3463e8958)  
-**Exported locally:** 2026-05-11
+**Source:** [Notion — PRD: Sales Market Pulse](https://www.notion.so/35dda74ef0458022b028d6c3463e8958)
+**Updated:** 2026-05-11 (rev. 1.1)
 
 ---
 
-> **Scope (v1):** This PRD describes a **public, local-first MVP** with **stubbed** market and news data. No external APIs in the initial ship; real-time feeds are a **Phase 2** follow-on.
+> **Scope (v1.1):** Browser-only, **public** app that combines a **live news feed** (free public APIs, no key/auth) with **curated briefings** that include a Cursor sales angle and copy-pastable talking points.
+> The previous "market snapshot" section has been **removed** in favor of a tighter focus on stories that affect Cursor and the sales role.
 
-# Product Review: Sales Market Pulse (MVP)
+# Product Review: Sales Market Pulse (Cursor sales briefing)
 
 - **Author:** Hobi Lew
 - **Team:** Sales / GTM (Cursor)
-- **Date:** 2026-05-11
+- **Date:** 2026-05-11 (rev. 1.1)
 - **Status:** Draft
+
+## What changed in v1.1
+
+- **Removed** the financial Market Snapshot (tickers, sparklines). Reps don't trade; tickers were context, not action — and credible live market data needs a paid vendor.
+- **Added** a real-time **Live pulse** feed sourced from **Hacker News** via the public `hn.algolia.com` search API (no API key, no auth, browser-side fetch).
+- "Market" in the product name now means **the market for AI dev tools and the conversations shaping it**, not equities.
 
 ## Opportunity
 
-> Cursor sales teams benefit from a single place that connects **market context** with **narrative-relevant news**—especially stories tied to Cursor, AI tooling, and enterprise software buying. Today that information is scattered across terminals, RSS, and social feeds, which makes prep inconsistent and slow.
+> Cursor sales reps need a single screen that surfaces, in near-real time, **what's actually being said about Cursor, AI coding, developer experience, and enterprise AI** — plus a sharp, pre-written sales angle on the stories they should bring into calls.
 
-This MVP proves the **workflow and information architecture** with **deterministic stub data**: a fast dashboard that a rep can scan before calls or territory planning. Shipping a simple, **public** reference implementation builds internal alignment and creates a clean foundation to swap stubs for live sources later—without redesigning the UI.
+The MVP validated the layout with stubs. v1.1 connects to **live, free** sources so reps see **what's being talked about right now**, while preserving curated briefings that contain the sales judgment Cursor reps actually need to repeat in conversations.
 
-## Customer Pains
+## Customer pains
 
-- **Fragmented prep:** Reps jump between market charts, headlines, and internal docs; nothing is tuned to “what matters for Cursor this week.”
-- **Latency vs. trust:** “Close to real time” matters, but not at the cost of unclear provenance; users need to see **source** and **timestamp** even in stub mode.
-- **Noise:** Generic finance or tech news is overwhelming; the product must prioritize **Cursor-adjacent** themes (IDEs, AI-assisted dev, security/compliance, enterprise procurement).
+- **Fragmented prep:** Reps assemble context from several places before a call.
+- **Noise:** Generic tech news is overwhelming; the live feed must be **scoped by Cursor-relevant queries**.
+- **No sales angle on raw news:** Reps don't want a generic feed reader — they want a single screen that says *"this story matters because…"*.
 
-## Proposed Solution(s)
+## Proposed solution
 
-### Selected approach: Static-first “Sales Pulse” dashboard (MVP)
+### A. Live pulse (NEW)
 
-A small **public** web app (or static site) that renders:
+- Browser `fetch()` to **`https://hn.algolia.com/api/v1/search`** for a small set of **Cursor-relevant categories** (Cursor, AI coding tools, Developer experience, Enterprise AI). Categories are configured in `index.html` under `PULSE_CATEGORIES` and are easy to tune.
+- **Per-card metadata:** title (links to original), HN discussion link, source domain, points, comment count, relative time, category chips.
+- **Filters:** multi-select category chips; sort by Newest / Most points / Most discussed; global search box.
+- **Refresh:** manual button; auto-refresh every 5 minutes when the tab is visible; "Live data fetched <relative time>" in the brief banner.
 
-1. **Market snapshot** — key indices / tickers as **stub JSON** (e.g., last close, daily change %), formatted as cards or a compact table.
-2. **News river** — curated **stub headlines** with tags such as `Cursor`, `AI devtools`, `Enterprise sales`, each with fake timestamps and “source” labels.
-3. **Rep mode** — optional filters (topic chips) that only rearrange **client-side** data (no network beyond hosting the static assets).
+**Why HN Algolia:** free, no key, CORS-enabled (`Access-Control-Allow-Origin: *`), broad coverage of dev-tools/AI discourse, generous rate limits for personal use.
 
-**Trade-offs:** No live accuracy in v1 (acceptable for IA/UX validation). **Benefit:** zero API keys, trivial hosting (e.g., GitHub Pages), instant load, reproducible demos.
+### B. Curated briefings (existing, stays)
 
-### Deferred (Phase 2)
+- Stub JSON (`stub/news.json`) with `summary`, `article[]`, `relevance[]`, **`talkingPoints[]`** per item, plus a top-level `dailyBrief`.
+- This is where the **sales judgment** lives — pre-written narrative the rep can drop into a conversation. The "Live pulse" surfaces what's hot; the "Curated briefings" tell the rep how to use it.
+- Each briefing has a **Copy talking points** button (clipboard).
 
-Live market + news providers, auth, personalization, and alerting. Those require contracts, rate limits, and compliance review—explicitly **out of scope** for MVP per engineering constraint.
+### Phase 2.x candidates (still deferred)
 
-## Mocks / Visuals / Prototype (required)
+- Additional free sources (Reddit JSON, Lobste.rs, RSS via a small proxy).
+- AI-generated daily brief from the live pulse (server-side or via Cursor's API).
+- Per-rep saved searches and pinned stories.
+- CRM/Slack export of the daily brief.
 
-**MVP visual spec (text wireframe — replace with screenshots when built):**
+### Explicitly out of scope
+
+- Live financial market data, auth, personalization, alerting, CRM sync.
+
+## Mocks (text wireframe)
 
 ```
-+------------------------------------------------------------------+
-| Sales Market Pulse                         [Topic: All v]       |
-+--------------------------+---------------------------------------+
-| MARKET (stub)            | NEWS (stub, Cursor-relevant)         |
-| SPX  +0.4%               | • "Enterprise IDEs adopt AI agents"   |
-| QQQ  -0.1%               |   Source: StubWire • 09:12 ET       |
-| CRUD (stub ticker) +2.1% | • "Buyer checklist for AI coding"   |
-|                          |   Tag: Procurement • 08:05 ET       |
-+--------------------------+---------------------------------------+
-| Footnote: Data is simulated for MVP (no external APIs).          |
-+------------------------------------------------------------------+
++--------------------------------------------------------------------+
+| [logo] Sales Market Pulse                  [search /]  [theme] [↻] |
++--------------------------------------------------------------------+
+| DAILY BRIEF                                                        |
+| Lead with governance: enterprises are tightening AI-coding…        |
+| 5 briefings · 24 live stories · fetched 2m ago                     |
++--------------------------------------------------------------------+
+| LIVE PULSE   [HN · live]                                           |
+| Chips: [Cursor] [AI coding tools] [Developer experience] [Ent. AI] |
+| +----------------------------+  +----------------------------+     |
+| | Cursor                     |  | AI coding tools            |     |
+| | "Show HN: …"               |  | "AI coding assistants are…"|     |
+| | hn.com · 132 pts · 48c · 4h|  | medium.com · 90 pts · 22c  |     |
+| | Open story →  HN discussion|  | Open story →  HN discussion|     |
+| +----------------------------+  +----------------------------+     |
++--------------------------------------------------------------------+
+| CURATED BRIEFINGS                                                  |
+| Headline · meta · summary                                          |
+|   Story (collapsible)                                              |
+|   Why this matters (collapsible) [ Copy talking points ]           |
++--------------------------------------------------------------------+
 ```
 
-**Prototype plan:** Implement the layout in the public repo first; attach **2–3 screenshots** to the Notion page before **Ready for Review**.
+## Goals & Non-Goals (revised)
 
-## Goals & Non-Goals
+| Goals (v1.1) | Non-Goals (v1.1) |
+|---|---|
+| Live, free, no-key news feed scoped to Cursor relevance | Live financial market data |
+| Curated briefings with copy-pastable talking points | Per-rep auth or CRM sync |
+| Public repo, GitHub Pages compatible | Server-side fetching or background workers |
+| Clear labeling of live vs. curated content | "AI brief" generation in v1 (Phase 2.x) |
 
-| Goals (MVP) | Non-Goals (MVP) |
-|-------------|-----------------|
-| Single-screen overview; stub data; public source; no secrets | Live market data, live news fetch, login, CRM sync |
-| Clear labeling that data is **simulated** | Investment advice or trading execution |
+## Success metrics (revised)
 
-## Success Metrics (MVP)
+- A rep opens the page **once per day** for prep.
+- ≥80% of HN stories surfaced by the queries are deemed **relevant** by a sample of reps (≤20% noise).
+- Live pulse renders in **< 2 s on broadband**; failures degrade gracefully with a clear retry path.
+- Briefings remain **edit-only-via-JSON** so non-engineers can update content.
 
-- **Qualitative:** 3+ sales stakeholders say the layout matches their weekly prep workflow.
-- **Quantitative (lightweight):** p95 load < 1s on broadband for static build; zero reported “I thought this was live” confusion after adding disclaimer copy.
-- **Engineering:** repo is **public**; CI builds green; README documents how to swap stub files.
+## Technical notes
 
-## Technical Notes
+- **Live data:** `fetch()` to `https://hn.algolia.com/api/v1/search` from the browser; categories defined in `index.html` (`PULSE_CATEGORIES`).
+- **Resilience:** `Promise.allSettled` per category; partial failures still render. If all fail, show inline error and a Refresh button.
+- **Caching:** `cache: "no-store"` on fetch + 5-minute auto-refresh + manual refresh.
+- **Privacy:** No PII, no telemetry, no keys. Static hosting compatible (e.g., GitHub Pages).
+- **Files:** `index.html` (UI + logic, single file), `stub/news.json` (curated briefings + daily brief), `prd.md` (this doc).
 
-- **Data:** `stub/market.json`, `stub/news.json` (or equivalent) checked into the repo; versioned fixtures for demos.
-- **Runtime:** Prefer static generation or client-only rendering—**no server-side external calls**.
-- **Privacy:** No PII; no API keys in the client.
+## Key questions for leadership
 
-## Key Questions for Leadership
-
-1. **Positioning:** Should v1 live under a personal GitHub org vs. a Cursor OSS namespace—any brand requirements for “public”?
-2. **Phase 2 priority:** When live data is allowed, do we prefer **one** paid market vendor vs. free tiers with stricter rate limits?
-3. **Editorial policy:** Who owns the taxonomy for “Cursor-relevant” tags when news is real—Sales, Comms, or a shared rubric?
+1. **Coverage:** Is HN-only enough for v1.1, or do we want Reddit / Lobste.rs / RSS in v1.2?
+2. **Editorial:** Who owns the curated briefings (Sales, Comms, GTM-shared)? Should they be authored in Notion and exported here?
+3. **Freshness:** Is 5-minute auto-refresh appropriate, or do we want push-style updates?
+4. **Naming:** Keep "Sales Market Pulse" (now meaning "the AI-dev-tool market") or rename to something like "Cursor Sales Pulse"?
 
 ## Appendix: Original idea (verbatim)
 
 My Idea is to make an app that pulls in free, close to real time, market data and gives me an overview of all news that is related to Cursor or is relevant to a Salesperson at Cursor.
 
-**Note:** MVP intentionally stubs data and defers external integrations.
+**Note:** v1.1 fulfills the intent of "free, close to real-time" by sourcing from the public Hacker News search API. The financial-market reading of "market data" was dropped in favor of the **AI dev tools market** — the conversation that actually moves Cursor sales cycles.
