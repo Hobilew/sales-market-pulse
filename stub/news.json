@@ -1,5 +1,6 @@
 {
   "disclaimer": "Simulated briefings for MVP — not live news. Each story includes context and sales relevance in stub form.",
+  "dailyBrief": "Today's reps should lead with governance: enterprises are tightening AI-coding policy, but DX budgets are still green. Pair Cursor's editor-native story with a crisp pilot scope and a security-friendly rollout plan.",
   "items": [
     {
       "id": "n1",
@@ -7,15 +8,21 @@
       "source": "StubWire",
       "publishedAt": "2026-05-11T14:12:00Z",
       "tags": ["AI devtools", "Enterprise sales"],
+      "summary": "Buyers want governance and workflow depth, not just better autocomplete.",
       "article": [
-        "Major vendors are shipping agent-style workflows that plan steps, edit multiple files, and run commands from inside the IDE. Buyers are asking for audit trails, policy controls, and clear data-handling rules—not just flashy demos.",
-        "Procurement teams are pairing engineering pilots with security reviews earlier in the cycle. The evaluation is shifting from “can it autocomplete?” to “can we govern it across repos, regions, and contractors?”",
+        "Major vendors are shipping agent-style workflows that plan steps, edit multiple files, and run commands from inside the IDE. Buyers are asking for audit trails, policy controls, and clear data-handling rules — not just flashy demos.",
+        "Procurement teams are pairing engineering pilots with security reviews earlier in the cycle. The evaluation is shifting from 'can it autocomplete?' to 'can we govern it across repos, regions, and contractors?'",
         "Enterprises are also testing how agents interact with existing SDLC tools: CI, code review, ticketing, and internal package registries. Integration depth is becoming as important as model quality."
       ],
       "relevance": [
-        "Cursor sits at the intersection of editor-native AI and developer workflow—exactly where this story’s demand is concentrated. Expect customers to ask how agentic features map to their compliance and access models.",
-        "A strong sales narrative ties Cursor’s in-editor experience to measurable outcomes: faster iteration, less context switching, and guardrails that fit how their org already ships software.",
+        "Cursor sits at the intersection of editor-native AI and developer workflow — exactly where this story's demand is concentrated. Expect customers to ask how agentic features map to their compliance and access models.",
+        "A strong sales narrative ties Cursor's in-editor experience to measurable outcomes: faster iteration, less context switching, and guardrails that fit how their org already ships software.",
         "Positioning tip: lead with workflow fit and governance conversation starters (permissions, data flow, auditability), then walk through a concrete team rollout pattern (pilot scope, success metrics, expansion)."
+      ],
+      "talkingPoints": [
+        "Lead with workflow fit and governance, not raw model benchmarks.",
+        "Bring permissions, data flow, and auditability into the first technical call.",
+        "Offer a 30/60/90 pilot plan tied to delivery metrics."
       ]
     },
     {
@@ -24,15 +31,21 @@
       "source": "StubWire",
       "publishedAt": "2026-05-11T13:05:00Z",
       "tags": ["Procurement", "Cursor"],
+      "summary": "Procurement is asking sharper questions about data handling, indemnity, and ROI baselines.",
       "article": [
         "A practical checklist is making the rounds among IT and security stakeholders. It covers training data policies, retention, exfiltration controls, prompt logging, and what happens when code suggestions touch regulated systems.",
-        "Legal and procurement are asking vendors for crisp answers on indemnity, open-source obligations, and how generated code is reviewed before merge. “We’ll figure it out in production” is no longer an acceptable default.",
-        "Economic buyers want ROI framing that connects tooling to delivery speed, incident reduction, and onboarding time—not generic “productivity AI” claims without baselines."
+        "Legal and procurement are asking vendors for crisp answers on indemnity, open-source obligations, and how generated code is reviewed before merge. 'We'll figure it out in production' is no longer an acceptable default.",
+        "Economic buyers want ROI framing that connects tooling to delivery speed, incident reduction, and onboarding time — not generic 'productivity AI' claims without baselines."
       ],
       "relevance": [
         "This is a direct map to enterprise deal cycles for Cursor: the checklist is a blueprint for discovery questions and proof artifacts you can prepare in advance (security pages, architecture FAQs, sample rollout plan).",
-        "Use it to qualify urgency: teams under active audit or vendor risk reviews will move faster if you can speak their language—controls, data minimization, and enterprise deployment patterns.",
-        "In calls, mirror the checklist structure: show how Cursor fits their SDLC, what data touches the service, and what knobs exist for policy—then offer a pilot design that de-risks legal/security review."
+        "Use it to qualify urgency: teams under active audit or vendor risk reviews will move faster if you can speak their language — controls, data minimization, and enterprise deployment patterns.",
+        "In calls, mirror the checklist structure: show how Cursor fits their SDLC, what data touches the service, and what knobs exist for policy — then offer a pilot design that de-risks legal/security review."
+      ],
+      "talkingPoints": [
+        "Mirror the buyer's checklist back to them point-by-point.",
+        "Surface security artifacts before they're requested.",
+        "Quantify outcomes against their current baseline, not generic benchmarks."
       ]
     },
     {
@@ -41,49 +54,67 @@
       "source": "StubDigest",
       "publishedAt": "2026-05-11T09:40:00Z",
       "tags": ["Security/compliance", "AI devtools"],
+      "summary": "Security teams want centralized policy with decentralized adoption — visibility without slowing devs.",
       "article": [
         "The guidance emphasizes threat modeling for AI-assisted development: treating suggestions as untrusted input, enforcing human review on sensitive modules, and monitoring for secret leakage and dependency confusion.",
-        "Security teams are asking for clarity on how assistants interact with private code, logs, and third-party plugins. The theme is centralized policy with decentralized adoption—developers get speed, security gets visibility.",
-        "Red-team exercises are expanding to include “AI misuse” scenarios: subtle prompt injection via comments, poisoned snippets, and risky auto-applied patches."
+        "Security teams are asking for clarity on how assistants interact with private code, logs, and third-party plugins. The theme is centralized policy with decentralized adoption — developers get speed, security gets visibility.",
+        "Red-team exercises are expanding to include 'AI misuse' scenarios: subtle prompt injection via comments, poisoned snippets, and risky auto-applied patches."
       ],
       "relevance": [
-        "Cursor conversations in security-heavy accounts should proactively address supply-chain and data handling. This story is a prompt to bring security in early—not as a blocker, but as a design partner.",
-        "Winning pattern: pair engineering champions with a security briefing that’s specific (architecture, controls, configurations) rather than generic trust marketing.",
-        "If customers ask “what could go wrong?”, answer with concrete mitigations: review gates, repo segmentation, secrets scanning, and enterprise admin capabilities—then tie each mitigation to how teams adopt Cursor safely."
+        "Cursor conversations in security-heavy accounts should proactively address supply-chain and data handling. This story is a prompt to bring security in early — not as a blocker, but as a design partner.",
+        "Winning pattern: pair engineering champions with a security briefing that's specific (architecture, controls, configurations) rather than generic trust marketing.",
+        "If customers ask 'what could go wrong?', answer with concrete mitigations: review gates, repo segmentation, secrets scanning, and enterprise admin capabilities — then tie each mitigation to how teams adopt Cursor safely."
+      ],
+      "talkingPoints": [
+        "Bring security in as a design partner from call one.",
+        "Pair an engineering champion with a security briefing built for their stack.",
+        "Answer 'what could go wrong?' with specific mitigations, not slogans."
       ]
     },
     {
       "id": "n4",
-      "headline": "CIO survey: ‘developer experience’ budgets rise as hiring stays tight",
+      "headline": "CIO survey: 'developer experience' budgets rise as hiring stays tight",
       "source": "StubInsights",
       "publishedAt": "2026-05-10T16:20:00Z",
       "tags": ["Enterprise sales", "AI devtools"],
+      "summary": "DX is now a real budget line item — and it's where AI-coding tools win the easiest sponsorship.",
       "article": [
         "A quarterly CIO snapshot shows continued pressure to ship more software with flat headcount. Leaders are funding platform teams and developer tooling before net-new hiring, especially where AI can compress cycle time.",
         "The survey highlights internal mobility: organizations want tools that shorten ramp time for new hires and cross-training between services, mobile, and infra teams.",
-        "ROI expectations are tightening—programs need a credible before/after story within one or two quarters, not multi-year science projects."
+        "ROI expectations are tightening — programs need a credible before/after story within one or two quarters, not multi-year science projects."
       ],
       "relevance": [
         "This is budget oxygen for Cursor: DX spend is a real category, and AI coding tools are easiest to justify when tied to delivery roadmaps and onboarding pain.",
         "Sales motion: identify platform engineering owners and engineering executives who own the DX budget line, not only individual IC advocates.",
         "Help prospects define a crisp pilot metric set (time-to-first PR, PR throughput, incident rate, or onboarding time) so the expansion conversation writes itself."
+      ],
+      "talkingPoints": [
+        "Map Cursor to the DX or platform engineering budget line.",
+        "Find the platform/engineering exec owner, not just IC champions.",
+        "Co-design the pilot metrics so expansion is automatic."
       ]
     },
     {
       "id": "n5",
-      "headline": "Regulated industries pilot ‘controlled’ AI coding with stricter change management",
+      "headline": "Regulated industries pilot 'controlled' AI coding with stricter change management",
       "source": "StubRegulatory Review",
       "publishedAt": "2026-05-09T11:55:00Z",
       "tags": ["Security/compliance", "Procurement"],
+      "summary": "Banks and healthtech are running scoped pilots — slower cycles, larger deal size, higher governance bar.",
       "article": [
         "Banks and healthcare technology groups are running pilots that restrict AI assistance to non-production paths, require additional approvals for generated changes in core systems, and annotate risk tiers per repository.",
-        "Change-management teams want parity between how human-written and AI-assisted changes are documented—clear authorship, review evidence, and rollback plans.",
+        "Change-management teams want parity between how human-written and AI-assisted changes are documented — clear authorship, review evidence, and rollback plans.",
         "Vendors are being asked for deployment models that reduce data movement and support regional constraints, especially when code contains customer or patient metadata."
       ],
       "relevance": [
         "Cursor sellers in regulated verticals should expect longer cycles but higher deal values. The winning approach is structured pilots with explicit guardrails and executive alignment on risk appetite.",
-        "Translate customer language into implementation: environments, access boundaries, review policies, and training—not just feature lists.",
-        "If you hear “we can’t use AI in production,” probe for where developers are already bottlenecked in lower-risk repos—often that’s where a controlled expansion path begins."
+        "Translate customer language into implementation: environments, access boundaries, review policies, and training — not just feature lists.",
+        "If you hear 'we can't use AI in production,' probe for where developers are already bottlenecked in lower-risk repos — often that's where a controlled expansion path begins."
+      ],
+      "talkingPoints": [
+        "Expect longer cycles; design pilots with explicit guardrails.",
+        "Translate features into environments, access boundaries, and review policy.",
+        "Start in lower-risk repos to earn the right to expand into core systems."
       ]
     }
   ]

@@ -1,370 +1,996 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sales Market Pulse (MVP)</title>
+    <title>Sales Market Pulse · Cursor</title>
+    <meta
+      name="description"
+      content="Sales Market Pulse — a Cursor-branded sales briefing dashboard with stubbed market data and Cursor-relevant news. Built by Hobi Lew."
+    />
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 2 L21 12 L13 14 L11 22 Z' fill='%23a78bfa'/></svg>" />
     <style>
       :root {
-        color-scheme: light dark;
-        --bg: #0f1115;
-        --panel: #171a21;
-        --border: #2a3040;
-        --text: #e8eaed;
-        --muted: #9aa3b2;
-        --accent: #3b82f6;
-        --pos: #22c55e;
-        --neg: #ef4444;
-        --chip: #273149;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        color-scheme: dark light;
+        --bg: #08090c;
+        --bg-elev: #0d0f14;
+        --panel: #11141b;
+        --panel-2: #161a23;
+        --border: #232838;
+        --border-strong: #2e3447;
+        --text: #f3f4f8;
+        --text-strong: #ffffff;
+        --muted: #9099ad;
+        --accent: #a78bfa;
+        --accent-2: #6ee7f0;
+        --accent-3: #f472b6;
+        --pos: #34d399;
+        --neg: #f87171;
+        --chip: #1c2230;
+        --chip-active: linear-gradient(135deg, rgba(167, 139, 250, 0.22), rgba(110, 231, 240, 0.18));
+        --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -32px rgba(0, 0, 0, 0.7);
+        --radius: 14px;
+        --radius-sm: 10px;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
       }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #f4f5f7;
-          --panel: #ffffff;
-          --border: #d8dee9;
-          --text: #111827;
-          --muted: #5b6472;
-          --chip: #e5e9f0;
-        }
+      [data-theme="light"] {
+        --bg: #f6f7fb;
+        --bg-elev: #ffffff;
+        --panel: #ffffff;
+        --panel-2: #f1f3f9;
+        --border: #e2e6ef;
+        --border-strong: #c8cfdd;
+        --text: #11151f;
+        --text-strong: #000000;
+        --muted: #5a6478;
+        --accent: #6d28d9;
+        --accent-2: #0891b2;
+        --accent-3: #db2777;
+        --pos: #15803d;
+        --neg: #b91c1c;
+        --chip: #eef1f7;
+        --chip-active: linear-gradient(135deg, rgba(109, 40, 217, 0.14), rgba(8, 145, 178, 0.12));
+        --shadow: 0 1px 0 rgba(0, 0, 0, 0.02) inset, 0 18px 40px -24px rgba(20, 22, 35, 0.18);
       }
-      * {
-        box-sizing: border-box;
-      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
       body {
         margin: 0;
-        background: var(--bg);
+        background:
+          radial-gradient(1100px 600px at 85% -10%, rgba(167, 139, 250, 0.10), transparent 60%),
+          radial-gradient(900px 600px at -10% 10%, rgba(110, 231, 240, 0.08), transparent 60%),
+          var(--bg);
         color: var(--text);
-        line-height: 1.5;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
-      header {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 1rem 1.25rem;
+      a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--border-strong); }
+      a:hover { color: var(--text-strong); border-bottom-color: var(--accent); }
+
+      /* ---------- Header ---------- */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: saturate(140%) blur(10px);
+        background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
         border-bottom: 1px solid var(--border);
-        background: var(--panel);
       }
-      h1 {
-        margin: 0;
-        font-size: 1.125rem;
-        font-weight: 600;
-      }
-      .filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+      .topbar-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0.85rem 1.25rem;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem;
         align-items: center;
       }
-      .filters label {
-        font-size: 0.8rem;
+      .brand { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, var(--accent-3) 100%);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 60%, transparent);
+      }
+      .brand-mark svg { width: 18px; height: 18px; fill: #0a0a0a; }
+      .brand-text { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
+      .brand-title {
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: -0.01em;
+        color: var(--text-strong);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .brand-sub {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--muted);
+        margin-top: 2px;
+        letter-spacing: 0.02em;
+      }
+      .brand-sub .dot { color: var(--accent); }
+
+      .toolbar { display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+      .search {
+        position: relative;
+        min-width: 220px;
+      }
+      .search input {
+        width: 100%;
+        padding: 0.55rem 0.7rem 0.55rem 2rem;
+        font: inherit;
+        font-size: 0.9rem;
+        color: var(--text);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      .search input::placeholder { color: var(--muted); }
+      .search input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+      }
+      .search svg {
+        position: absolute;
+        left: 0.6rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
         color: var(--muted);
       }
-      select {
-        background: var(--bg);
+      .kbd {
+        position: absolute;
+        right: 0.45rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        color: var(--muted);
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 5px;
+      }
+      .icon-btn {
+        appearance: none;
+        background: var(--panel);
         color: var(--text);
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.35rem 0.6rem;
+        padding: 0.45rem 0.6rem;
+        border-radius: 10px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
         font: inherit;
+        font-size: 0.85rem;
+        transition: border-color 0.15s, transform 0.05s, background 0.15s;
       }
+      .icon-btn:hover { border-color: var(--accent); }
+      .icon-btn:active { transform: translateY(1px); }
+      .icon-btn svg { width: 14px; height: 14px; }
+
+      /* ---------- Layout ---------- */
       main {
-        display: grid;
-        grid-template-columns: minmax(260px, 1fr) minmax(0, 2.25fr);
-        gap: 1rem;
-        padding: 1rem 1.25rem 2rem;
-        max-width: 1200px;
+        max-width: 1280px;
         margin: 0 auto;
+        padding: 1.25rem 1.25rem 3rem;
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) minmax(0, 2.4fr);
+        gap: 1.1rem;
         align-items: start;
       }
-      @media (max-width: 900px) {
-        main {
-          grid-template-columns: 1fr;
-        }
-      }
-      section {
+      @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
+
+      .grid-full { grid-column: 1 / -1; }
+
+      .card {
         background: var(--panel);
         border: 1px solid var(--border);
-        border-radius: 12px;
+        border-radius: var(--radius);
         padding: 1rem 1.1rem;
+        box-shadow: var(--shadow);
       }
-      section h2 {
-        margin: 0 0 0.75rem;
-        font-size: 0.75rem;
+      .card.tight { padding: 0.85rem 1rem; }
+      .card-h2 {
+        margin: 0 0 0.85rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .card-h2 .badge {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        padding: 1px 6px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        text-transform: none;
+        letter-spacing: 0;
+      }
+
+      /* ---------- Daily brief ---------- */
+      .brief {
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg,
+            color-mix(in srgb, var(--accent) 16%, var(--panel)) 0%,
+            color-mix(in srgb, var(--accent-2) 10%, var(--panel)) 60%,
+            var(--panel) 100%);
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+      }
+      .brief::after {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        background: radial-gradient(600px 200px at 90% 10%, color-mix(in srgb, var(--accent-3) 18%, transparent), transparent 60%);
+        pointer-events: none;
+      }
+      .brief .label {
+        font-family: var(--mono);
+        font-size: 0.7rem;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--muted);
-      }
-      .banner {
-        margin: 0 1.25rem 0;
-        max-width: 1100px;
-        margin-inline: auto;
-        padding: 0 1.25rem;
-      }
-      .banner p {
-        margin: 0.75rem 0 0;
-        font-size: 0.8rem;
-        color: var(--muted);
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.9rem;
-      }
-      th,
-      td {
-        text-align: left;
-        padding: 0.45rem 0.35rem;
-        border-bottom: 1px solid var(--border);
-      }
-      th {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--muted);
-      }
-      .pct-pos {
-        color: var(--pos);
-        font-variant-numeric: tabular-nums;
-      }
-      .pct-neg {
-        color: var(--neg);
-        font-variant-numeric: tabular-nums;
-      }
-      .news-item {
-        padding: 1.1rem 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .news-item:first-child {
-        padding-top: 0.25rem;
-      }
-      .news-item:last-child {
-        border-bottom: none;
-        padding-bottom: 0.25rem;
-      }
-      .news-item h3 {
-        margin: 0 0 0.35rem;
-        font-size: 1.05rem;
-        font-weight: 650;
-        line-height: 1.35;
-      }
-      .article-body {
-        margin: 0.65rem 0 0;
-        font-size: 0.92rem;
-        line-height: 1.62;
-        color: var(--text);
-      }
-      .article-body p {
-        margin: 0 0 0.65rem;
-      }
-      .article-body p:last-child {
-        margin-bottom: 0;
-      }
-      .relevance-block {
-        margin: 0.85rem 0 0;
-        padding: 0.75rem 0.85rem;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        border-left: 4px solid var(--accent);
-        background: color-mix(in srgb, var(--accent) 8%, var(--panel));
-      }
-      .relevance-block h4 {
-        margin: 0 0 0.5rem;
-        font-size: 0.72rem;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
         color: var(--accent);
-        font-weight: 650;
       }
-      .relevance-block .article-body {
-        margin-top: 0;
-        font-size: 0.88rem;
-        line-height: 1.58;
+      .brief p {
+        margin: 0.4rem 0 0;
+        font-size: 1.02rem;
+        color: var(--text-strong);
+        max-width: 70ch;
       }
-      .meta {
-        font-size: 0.78rem;
-        color: var(--muted);
-      }
-      .chips {
+      .brief .meta-row {
+        margin-top: 0.7rem;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.35rem;
-        margin-top: 0.4rem;
+        gap: 0.6rem 1rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        align-items: center;
       }
-      .chip {
+      .stat {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35rem;
+      }
+      .stat .num {
+        font-family: var(--mono);
+        font-weight: 600;
+        color: var(--text-strong);
+      }
+
+      /* ---------- Market ---------- */
+      .market-group { margin-top: 0.5rem; }
+      .market-group:first-child { margin-top: 0; }
+      .market-group h3 {
         font-size: 0.72rem;
-        padding: 0.15rem 0.45rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin: 0 0 0.45rem;
+      }
+      .quote {
+        display: grid;
+        grid-template-columns: minmax(48px, auto) 1fr 60px auto;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.55rem 0.5rem;
+        border-radius: var(--radius-sm);
+        transition: background 0.12s, transform 0.05s;
+      }
+      .quote + .quote { border-top: 1px dashed var(--border); }
+      .quote:hover { background: var(--panel-2); }
+      .quote .sym {
+        font-family: var(--mono);
+        font-weight: 700;
+        color: var(--text-strong);
+        letter-spacing: 0.02em;
+      }
+      .quote .name {
+        color: var(--muted);
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .quote .spark { width: 60px; height: 22px; display: block; }
+      .quote .price-block {
+        text-align: right;
+        font-family: var(--mono);
+        line-height: 1.15;
+      }
+      .quote .last { font-size: 0.92rem; color: var(--text-strong); }
+      .quote .chg { font-size: 0.78rem; }
+      .pos { color: var(--pos); }
+      .neg { color: var(--neg); }
+
+      /* ---------- News filters ---------- */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 0.6rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 0.85rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .chip-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+      .chip {
+        appearance: none;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.76rem;
+        padding: 0.28rem 0.65rem;
         border-radius: 999px;
         background: var(--chip);
         color: var(--text);
+        border: 1px solid var(--border);
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
       }
+      .chip:hover { border-color: var(--accent); }
+      .chip[aria-pressed="true"] {
+        background: var(--chip-active);
+        border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+        color: var(--text-strong);
+      }
+      .filter-spacer { flex: 1 1 1rem; }
+      select.sort {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.42rem 0.6rem;
+        font: inherit;
+        font-size: 0.85rem;
+      }
+
+      /* ---------- News card ---------- */
+      .news-list { display: grid; gap: 1rem; }
+      .news-item {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: var(--radius);
+        padding: 1.1rem 1.15rem 1rem;
+        transition: border-color 0.15s, transform 0.05s;
+        animation: fadeUp 0.35s ease both;
+      }
+      .news-item:hover { border-color: var(--border-strong); }
+      .news-item h3 {
+        margin: 0 0 0.35rem;
+        font-size: 1.1rem;
+        font-weight: 650;
+        line-height: 1.3;
+        color: var(--text-strong);
+        letter-spacing: -0.005em;
+      }
+      .news-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.75rem;
+        align-items: center;
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-bottom: 0.55rem;
+      }
+      .news-meta .dot { opacity: 0.6; }
+      .news-summary {
+        margin: 0 0 0.6rem;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      details.section { margin-top: 0.55rem; }
+      details.section > summary {
+        cursor: pointer;
+        list-style: none;
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.25rem 0;
+        user-select: none;
+      }
+      details.section > summary::-webkit-details-marker { display: none; }
+      details.section > summary::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: rotate(-45deg);
+        transition: transform 0.18s;
+      }
+      details.section[open] > summary::before { transform: rotate(45deg); }
+
+      .article-body { font-size: 0.93rem; line-height: 1.65; color: var(--text); }
+      .article-body p { margin: 0 0 0.6rem; }
+      .article-body p:last-child { margin-bottom: 0; }
+
+      .relevance {
+        margin-top: 0.7rem;
+        padding: 0.85rem 0.95rem;
+        border-radius: 12px;
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+        background: linear-gradient(180deg,
+          color-mix(in srgb, var(--accent) 12%, var(--panel)),
+          color-mix(in srgb, var(--accent) 5%, var(--panel)));
+      }
+      .relevance-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.45rem;
+      }
+      .relevance-head h4 {
+        margin: 0;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .relevance-head .spacer { flex: 1; }
+      .copy-btn {
+        appearance: none;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.74rem;
+        color: var(--text);
+        background: color-mix(in srgb, var(--accent) 14%, var(--panel-2));
+        border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+        border-radius: 8px;
+        padding: 0.25rem 0.55rem;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .copy-btn:hover { background: color-mix(in srgb, var(--accent) 22%, var(--panel-2)); }
+      .copy-btn[data-copied="true"] {
+        background: color-mix(in srgb, var(--pos) 22%, var(--panel-2));
+        border-color: color-mix(in srgb, var(--pos) 50%, var(--border));
+        color: var(--text-strong);
+      }
+      .talking-list { margin: 0.55rem 0 0; padding-left: 1.05rem; font-size: 0.86rem; }
+      .talking-list li { margin: 0.2rem 0; }
+
+      .tag {
+        font-size: 0.7rem;
+        font-family: var(--mono);
+        background: var(--chip);
+        color: var(--muted);
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+      }
+
+      .news-empty {
+        padding: 2rem 1rem;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1.25rem 2.5rem;
+        font-size: 0.82rem;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      footer .credit { display: inline-flex; align-items: center; gap: 0.4rem; }
+      footer .credit strong { color: var(--text-strong); font-weight: 600; }
+      footer .links { display: inline-flex; gap: 0.85rem; flex-wrap: wrap; }
+
+      /* ---------- Misc ---------- */
+      .toast {
+        position: fixed;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--panel-2);
+        color: var(--text-strong);
+        border: 1px solid var(--border-strong);
+        padding: 0.55rem 0.85rem;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        opacity: 0;
+        transition: opacity 0.18s, transform 0.18s;
+        pointer-events: none;
+        z-index: 50;
+      }
+      .toast[data-visible="true"] {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .skeleton {
+        background: linear-gradient(90deg, var(--panel-2), color-mix(in srgb, var(--panel-2) 70%, var(--border)), var(--panel-2));
+        background-size: 200% 100%;
+        animation: shimmer 1.4s linear infinite;
+        border-radius: 6px;
+        height: 0.9em;
+        width: 100%;
+      }
+      .skeleton + .skeleton { margin-top: 0.5rem; }
+      @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
       .error {
         color: var(--neg);
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
       }
     </style>
   </head>
   <body>
-    <header>
-      <h1>Sales Market Pulse</h1>
-      <div class="filters">
-        <label for="topic">Topic</label>
-        <select id="topic" aria-label="Filter news by topic">
-          <option value="all">All</option>
-        </select>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand" aria-label="Cursor — Sales Market Pulse">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 2 L21 12 L13 14 L11 22 Z" /></svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Sales Market Pulse</span>
+            <span class="brand-sub">cursor <span class="dot">·</span> internal sales briefing</span>
+          </div>
+        </div>
+        <div class="toolbar" role="search">
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path>
+            </svg>
+            <input id="q" type="search" placeholder="Search briefings, tickers, tags…" aria-label="Search briefings" />
+            <span class="kbd" aria-hidden="true">/</span>
+          </div>
+          <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme">
+            <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <span id="theme-label">Theme</span>
+          </button>
+          <button id="refresh" class="icon-btn" type="button" aria-label="Refresh data">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-3.5-7.1"/><path d="M21 4v5h-5"/>
+            </svg>
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
-    </header>
-    <div class="banner">
-      <p id="disclaimer"></p>
     </div>
+
     <main>
-      <section aria-labelledby="market-heading">
-        <h2 id="market-heading">Market (stub)</h2>
-        <div id="market-root"></div>
+      <section class="card brief grid-full" aria-labelledby="brief-h">
+        <div class="label" id="brief-h">Daily brief</div>
+        <p id="brief-text"><span class="skeleton" style="width:80%"></span></p>
+        <div class="meta-row">
+          <span class="stat"><span class="num" id="stat-stories">—</span> briefings</span>
+          <span class="stat"><span class="num" id="stat-tickers">—</span> tickers tracked</span>
+          <span class="stat"><span>As of</span> <span class="num" id="stat-asof">—</span></span>
+          <span id="stat-disclaimer" style="opacity: 0.85"></span>
+        </div>
       </section>
-      <section aria-labelledby="news-heading">
-        <h2 id="news-heading">News briefings (stub)</h2>
-        <p class="meta" style="margin: -0.35rem 0 0.75rem; max-width: 52rem">
-          Full context plus a <strong>Cursor sales angle</strong> on each story. Edit copy in <code>stub/news.json</code>.
-        </p>
-        <div id="news-root"></div>
+
+      <section class="card" aria-labelledby="market-h">
+        <h2 class="card-h2" id="market-h">
+          Market snapshot
+          <span class="badge">stub</span>
+        </h2>
+        <div id="market-root">
+          <div class="skeleton" style="width:90%"></div>
+          <div class="skeleton" style="width:80%"></div>
+          <div class="skeleton" style="width:75%"></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="news-h">
+        <h2 class="card-h2" id="news-h">
+          News briefings
+          <span class="badge">stub</span>
+        </h2>
+        <div class="filter-bar" role="region" aria-label="Filter briefings">
+          <div class="chip-row" id="chip-row" aria-label="Topic chips"></div>
+          <div class="filter-spacer"></div>
+          <label for="sort" class="brand-sub" style="margin-right:0.25rem">Sort</label>
+          <select id="sort" class="sort" aria-label="Sort briefings">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="headline">Headline A–Z</option>
+            <option value="source">Source A–Z</option>
+          </select>
+        </div>
+        <div id="news-root" class="news-list" aria-live="polite">
+          <div class="news-item">
+            <div class="skeleton" style="width:60%"></div>
+            <div class="skeleton" style="width:80%"></div>
+            <div class="skeleton" style="width:90%"></div>
+          </div>
+        </div>
       </section>
     </main>
+
+    <footer>
+      <div class="credit">
+        <span class="brand-mark" aria-hidden="true" style="width:18px;height:18px;border-radius:5px">
+          <svg viewBox="0 0 24 24" style="width:10px;height:10px"><path d="M3 2 L21 12 L13 14 L11 22 Z"/></svg>
+        </span>
+        <span>Cursor · Sales Market Pulse · Built by <strong>Hobi Lew</strong></span>
+      </div>
+      <div class="links">
+        <a href="https://github.com/Hobilew/sales-market-pulse" target="_blank" rel="noreferrer noopener">GitHub</a>
+        <a href="https://www.notion.so/35dda74ef0458022b028d6c3463e8958" target="_blank" rel="noreferrer noopener">PRD (Notion)</a>
+        <a href="./prd.md">PRD (local)</a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
     <script>
-      const topicSelect = document.getElementById("topic");
-      const marketRoot = document.getElementById("market-root");
-      const newsRoot = document.getElementById("news-root");
-      const disclaimer = document.getElementById("disclaimer");
+      const $ = (sel) => document.querySelector(sel);
+      const newsRoot = $("#news-root");
+      const marketRoot = $("#market-root");
+      const briefText = $("#brief-text");
+      const chipRow = $("#chip-row");
+      const sortSel = $("#sort");
+      const search = $("#q");
+      const refresh = $("#refresh");
+      const themeBtn = $("#theme-toggle");
+      const themeLabel = $("#theme-label");
+      const toast = $("#toast");
 
-      let marketData = null;
-      let newsData = null;
+      const state = {
+        market: null,
+        news: null,
+        activeTags: new Set(),
+        query: "",
+        sort: "newest",
+      };
 
-      function formatTime(iso) {
-        try {
-          const d = new Date(iso);
-          return d.toLocaleString(undefined, {
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-        } catch {
-          return iso;
-        }
-      }
-
-      function escapeHtml(str) {
-        return String(str)
+      // ---------- Utilities ----------
+      const escapeHtml = (s) =>
+        String(s ?? "")
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#39;");
-      }
 
-      function paragraphsHtml(field) {
+      const formatTime = (iso) => {
+        try {
+          const d = new Date(iso);
+          return d.toLocaleString(undefined, {
+            month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+          });
+        } catch { return iso ?? ""; }
+      };
+      const formatDateOnly = (iso) => {
+        try {
+          const d = new Date(iso);
+          return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+        } catch { return iso ?? ""; }
+      };
+      const wordCount = (item) => {
+        const text = [item.summary, ...(item.article ?? []), ...(item.relevance ?? []), ...(item.talkingPoints ?? [])]
+          .filter(Boolean).join(" ");
+        return text.trim().split(/\s+/).length;
+      };
+      const readingMinutes = (item) => Math.max(1, Math.round(wordCount(item) / 220));
+
+      const paragraphsHtml = (field) => {
         if (field == null) return "";
         const parts = Array.isArray(field) ? field : [field];
-        const paras = parts.map((p) => String(p).trim()).filter(Boolean);
-        if (!paras.length) return "";
-        return paras.map((p) => `<p>${escapeHtml(p)}</p>`).join("");
-      }
-
-      function renderMarket() {
-        if (!marketData) return;
-        const rows = marketData.quotes
-          .map(
-            (q) => `
-          <tr>
-            <td><strong>${q.symbol}</strong></td>
-            <td>${q.name ?? ""}</td>
-            <td>${q.last?.toFixed?.(2) ?? q.last}</td>
-            <td class="${q.changePct >= 0 ? "pct-pos" : "pct-neg"}">${q.changePct >= 0 ? "+" : ""}${q.changePct?.toFixed?.(2) ?? q.changePct}%</td>
-          </tr>`
-          )
+        return parts
+          .map((p) => String(p).trim())
+          .filter(Boolean)
+          .map((p) => `<p>${escapeHtml(p)}</p>`)
           .join("");
-        marketRoot.innerHTML = `
-          <table>
-            <thead><tr><th>Sym</th><th>Name</th><th>Last</th><th>Chg %</th></tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-          <p class="meta" style="margin:0.5rem 0 0;font-size:0.78rem;color:var(--muted)">As of ${formatTime(marketData.asOf)}</p>`;
-      }
+      };
 
-      function allTags() {
-        const set = new Set();
-        (newsData?.items ?? []).forEach((i) => (i.tags ?? []).forEach((t) => set.add(t)));
-        return [...set].sort();
-      }
-
-      function fillTopics() {
-        const tags = allTags();
-        topicSelect.innerHTML =
-          `<option value="all">All</option>` +
-          tags.map((t) => `<option value="${t}">${t}</option>`).join("");
-      }
-
-      function renderNews() {
-        if (!newsData) return;
-        const filter = topicSelect.value;
-        const items = newsData.items.filter((i) => {
-          if (filter === "all") return true;
-          return (i.tags ?? []).includes(filter);
+      const sparklinePath = (history, w = 60, h = 22, pad = 2) => {
+        if (!Array.isArray(history) || history.length < 2) return null;
+        const min = Math.min(...history);
+        const max = Math.max(...history);
+        const range = max - min || 1;
+        const stepX = (w - pad * 2) / (history.length - 1);
+        const points = history.map((v, i) => {
+          const x = pad + i * stepX;
+          const y = h - pad - ((v - min) / range) * (h - pad * 2);
+          return [x, y];
         });
+        const d = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
+        const last = history[history.length - 1];
+        const first = history[0];
+        const stroke = last >= first ? "var(--pos)" : "var(--neg)";
+        const fillStop = last >= first ? "var(--pos)" : "var(--neg)";
+        const areaD = `${d} L ${(w - pad).toFixed(2)},${(h - pad).toFixed(2)} L ${pad.toFixed(2)},${(h - pad).toFixed(2)} Z`;
+        return { d, areaD, stroke, fillStop };
+      };
+
+      const showToast = (msg) => {
+        toast.textContent = msg;
+        toast.dataset.visible = "true";
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => (toast.dataset.visible = "false"), 1600);
+      };
+
+      // ---------- Theme ----------
+      const setTheme = (t) => {
+        document.documentElement.dataset.theme = t;
+        themeLabel.textContent = t === "dark" ? "Dark" : "Light";
+        try { localStorage.setItem("smp-theme", t); } catch {}
+      };
+      const initTheme = () => {
+        let saved = null;
+        try { saved = localStorage.getItem("smp-theme"); } catch {}
+        if (saved === "dark" || saved === "light") return setTheme(saved);
+        const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+        setTheme(prefersLight ? "light" : "dark");
+      };
+      themeBtn.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+      });
+
+      // ---------- Render: market ----------
+      const renderMarket = () => {
+        const m = state.market;
+        if (!m) return;
+        const groups = m.groups ?? (m.quotes ? [{ id: "all", label: "Tickers", quotes: m.quotes }] : []);
+        if (!groups.length) {
+          marketRoot.innerHTML = `<p class="error">No market data in stub.</p>`;
+          return;
+        }
+        marketRoot.innerHTML = groups
+          .map((g) => `
+            <div class="market-group">
+              <h3>${escapeHtml(g.label ?? g.id ?? "")}</h3>
+              ${g.quotes
+                .map((q) => {
+                  const sp = sparklinePath(q.history);
+                  const sparkSvg = sp
+                    ? `<svg class="spark" viewBox="0 0 60 22" aria-hidden="true">
+                         <defs>
+                           <linearGradient id="g-${escapeHtml(q.symbol)}" x1="0" x2="0" y1="0" y2="1">
+                             <stop offset="0%" stop-color="${sp.fillStop}" stop-opacity="0.35"/>
+                             <stop offset="100%" stop-color="${sp.fillStop}" stop-opacity="0"/>
+                           </linearGradient>
+                         </defs>
+                         <path d="${sp.areaD}" fill="url(#g-${escapeHtml(q.symbol)})" />
+                         <path d="${sp.d}" fill="none" stroke="${sp.stroke}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                       </svg>`
+                    : `<span class="spark"></span>`;
+                  const pos = (q.changePct ?? 0) >= 0;
+                  const last = typeof q.last === "number" ? q.last.toFixed(2) : escapeHtml(q.last);
+                  const chg = typeof q.changePct === "number"
+                    ? (pos ? "+" : "") + q.changePct.toFixed(2) + "%"
+                    : escapeHtml(q.changePct ?? "");
+                  return `
+                    <div class="quote" title="${escapeHtml(q.name ?? q.symbol)}">
+                      <span class="sym">${escapeHtml(q.symbol)}</span>
+                      <span class="name">${escapeHtml(q.name ?? "")}</span>
+                      ${sparkSvg}
+                      <span class="price-block">
+                        <div class="last">${last}</div>
+                        <div class="chg ${pos ? "pos" : "neg"}">${chg}</div>
+                      </span>
+                    </div>`;
+                })
+                .join("")}
+            </div>`)
+          .join("");
+      };
+
+      // ---------- News: filters + render ----------
+      const allTags = () => {
+        const set = new Set();
+        (state.news?.items ?? []).forEach((i) => (i.tags ?? []).forEach((t) => set.add(t)));
+        return [...set].sort();
+      };
+
+      const renderChips = () => {
+        const tags = allTags();
+        chipRow.innerHTML = tags
+          .map((t) => {
+            const active = state.activeTags.has(t);
+            return `<button class="chip" type="button" data-tag="${escapeHtml(t)}" aria-pressed="${active}">${escapeHtml(t)}</button>`;
+          })
+          .join("");
+      };
+
+      const matchesQuery = (item, q) => {
+        if (!q) return true;
+        const hay = [
+          item.headline, item.source, item.summary,
+          ...(item.tags ?? []), ...(item.article ?? []),
+          ...(item.relevance ?? []), ...(item.talkingPoints ?? []),
+        ].filter(Boolean).join(" ").toLowerCase();
+        return hay.includes(q);
+      };
+
+      const filteredItems = () => {
+        const items = state.news?.items ?? [];
+        const q = state.query.trim().toLowerCase();
+        const active = state.activeTags;
+        let out = items.filter((i) => {
+          if (active.size && !(i.tags ?? []).some((t) => active.has(t))) return false;
+          return matchesQuery(i, q);
+        });
+        const cmp = {
+          newest: (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+          oldest: (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt),
+          headline: (a, b) => String(a.headline).localeCompare(String(b.headline)),
+          source: (a, b) => String(a.source).localeCompare(String(b.source)),
+        }[state.sort] || ((a, b) => 0);
+        out.sort(cmp);
+        return out;
+      };
+
+      const renderNews = () => {
+        if (!state.news) return;
+        const items = filteredItems();
         if (!items.length) {
-          newsRoot.innerHTML = `<p class="meta">No items for this topic.</p>`;
+          newsRoot.innerHTML = `<div class="news-empty">No briefings match the current filters.<br/>Clear the search or tag chips to see all stories.</div>`;
           return;
         }
         newsRoot.innerHTML = items
           .map((i) => {
             const headline = escapeHtml(i.headline ?? "Untitled");
             const src = escapeHtml(i.source ?? "Source");
-            const bodyHtml = paragraphsHtml(i.article);
-            const relHtml = paragraphsHtml(i.relevance);
-            const relevanceTitle = escapeHtml(i.relevanceTitle ?? "Why this matters for Cursor sales");
-            const bodySection = bodyHtml
-              ? `<div class="article-body">${bodyHtml}</div>`
-              : `<div class="article-body"><p><em>No article body in stub data.</em></p></div>`;
-            const relevanceSection = relHtml
-              ? `<aside class="relevance-block" aria-label="Sales relevance"><h4>${relevanceTitle}</h4><div class="article-body">${relHtml}</div></aside>`
+            const time = escapeHtml(formatTime(i.publishedAt));
+            const summary = i.summary ? `<p class="news-summary">${escapeHtml(i.summary)}</p>` : "";
+            const tags = (i.tags ?? [])
+              .map((t) => `<span class="tag">${escapeHtml(t)}</span>`)
+              .join("");
+            const articleBody = paragraphsHtml(i.article);
+            const relevanceBody = paragraphsHtml(i.relevance);
+            const talking = (i.talkingPoints ?? [])
+              .map((p) => `<li>${escapeHtml(p)}</li>`)
+              .join("");
+            const minutes = readingMinutes(i);
+            const articleSection = articleBody
+              ? `<details class="section" open>
+                   <summary>Story</summary>
+                   <div class="article-body">${articleBody}</div>
+                 </details>`
+              : "";
+            const relevanceSection = (relevanceBody || talking)
+              ? `<details class="section" open>
+                   <summary>Why this matters</summary>
+                   <div class="relevance">
+                     <div class="relevance-head">
+                       <h4>Cursor sales angle</h4>
+                       <span class="spacer"></span>
+                       ${talking ? `<button class="copy-btn" type="button" data-copy="${escapeHtml((i.talkingPoints ?? []).join("\n• "))}">Copy talking points</button>` : ""}
+                     </div>
+                     ${relevanceBody ? `<div class="article-body">${relevanceBody}</div>` : ""}
+                     ${talking ? `<ul class="talking-list">${talking}</ul>` : ""}
+                   </div>
+                 </details>`
               : "";
             return `
-          <article class="news-item">
-            <h3>${headline}</h3>
-            <div class="meta">${src} · ${escapeHtml(formatTime(i.publishedAt))}</div>
-            <div class="chips">${(i.tags ?? [])
-              .map((t) => `<span class="chip">${escapeHtml(t)}</span>`)
-              .join("")}</div>
-            ${bodySection}
-            ${relevanceSection}
-          </article>`;
+              <article class="news-item" data-id="${escapeHtml(i.id ?? "")}">
+                <h3>${headline}</h3>
+                <div class="news-meta">
+                  <span>${src}</span>
+                  <span class="dot">•</span>
+                  <span>${time}</span>
+                  <span class="dot">•</span>
+                  <span>${minutes} min read</span>
+                  ${tags ? `<span class="dot">•</span>${tags}` : ""}
+                </div>
+                ${summary}
+                ${articleSection}
+                ${relevanceSection}
+              </article>`;
           })
           .join("");
-      }
+      };
 
-      async function load() {
+      // ---------- Daily brief / stats ----------
+      const renderBrief = () => {
+        const brief = state.news?.dailyBrief ?? state.market?.summary ?? "Stub data loaded — explore the tickers and briefings below.";
+        briefText.textContent = brief;
+        $("#stat-stories").textContent = state.news?.items?.length ?? 0;
+        const tickerCount = (state.market?.groups ?? []).reduce((acc, g) => acc + (g.quotes?.length ?? 0), 0)
+          || (state.market?.quotes?.length ?? 0);
+        $("#stat-tickers").textContent = tickerCount;
+        $("#stat-asof").textContent = formatDateOnly(state.market?.asOf);
+        const disc = [state.market?.disclaimer, state.news?.disclaimer].filter(Boolean).join(" ");
+        $("#stat-disclaimer").textContent = disc;
+      };
+
+      // ---------- Events ----------
+      chipRow.addEventListener("click", (e) => {
+        const btn = e.target.closest(".chip");
+        if (!btn) return;
+        const tag = btn.dataset.tag;
+        if (state.activeTags.has(tag)) state.activeTags.delete(tag);
+        else state.activeTags.add(tag);
+        renderChips();
+        renderNews();
+      });
+
+      sortSel.addEventListener("change", () => { state.sort = sortSel.value; renderNews(); });
+      search.addEventListener("input", () => { state.query = search.value; renderNews(); });
+
+      newsRoot.addEventListener("click", async (e) => {
+        const btn = e.target.closest(".copy-btn");
+        if (!btn) return;
+        const text = "• " + (btn.dataset.copy || "");
         try {
+          await navigator.clipboard.writeText(text);
+          btn.dataset.copied = "true";
+          btn.textContent = "Copied";
+          showToast("Talking points copied to clipboard");
+          setTimeout(() => { btn.dataset.copied = "false"; btn.textContent = "Copy talking points"; }, 1400);
+        } catch {
+          showToast("Couldn't copy — select the text manually");
+        }
+      });
+
+      refresh.addEventListener("click", () => load(true));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "/" && document.activeElement !== search) {
+          e.preventDefault();
+          search.focus();
+          search.select();
+        }
+        if (e.key === "Escape" && document.activeElement === search) {
+          search.value = "";
+          state.query = "";
+          renderNews();
+        }
+      });
+
+      // ---------- Load ----------
+      async function load(isRefresh = false) {
+        try {
+          if (isRefresh) showToast("Refreshing…");
           const [mRes, nRes] = await Promise.all([
             fetch("./stub/market.json", { cache: "no-store" }),
             fetch("./stub/news.json", { cache: "no-store" }),
           ]);
           if (!mRes.ok || !nRes.ok) throw new Error("Failed to load stub JSON");
-          marketData = await mRes.json();
-          newsData = await nRes.json();
-          disclaimer.textContent = [marketData.disclaimer, newsData.disclaimer].filter(Boolean).join(" ");
-          fillTopics();
+          state.market = await mRes.json();
+          state.news = await nRes.json();
+          renderBrief();
           renderMarket();
+          renderChips();
           renderNews();
-        } catch (e) {
-          marketRoot.innerHTML = `<p class="error">Could not load data. Use a local server (see README), not file://.</p>`;
+          if (isRefresh) showToast("Up to date");
+        } catch (err) {
+          marketRoot.innerHTML = `<p class="error">Could not load data. Serve the folder via <code>python3 -m http.server</code> instead of opening with <code>file://</code>.</p>`;
           newsRoot.innerHTML = "";
-          disclaimer.textContent = "";
+          briefText.textContent = "Stub data unavailable.";
         }
       }
 
-      topicSelect.addEventListener("change", renderNews);
+      initTheme();
       load();
     </script>
   </body>

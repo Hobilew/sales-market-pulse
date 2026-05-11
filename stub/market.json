@@ -1,9 +1,88 @@
 {
   "asOf": "2026-05-11T14:30:00Z",
   "disclaimer": "Simulated data for MVP — not live market data.",
-  "quotes": [
-    { "symbol": "SPX", "name": "S&P 500 (stub)", "last": 5821.42, "changePct": 0.41 },
-    { "symbol": "QQQ", "name": "Nasdaq 100 (stub)", "last": 501.12, "changePct": -0.12 },
-    { "symbol": "CRUD", "name": "Sample ticker (stub)", "last": 42.0, "changePct": 2.1 }
+  "summary": "Risk-on tone in mega-cap tech; AI infrastructure names lead, security software firms quietly outperform.",
+  "groups": [
+    {
+      "id": "indices",
+      "label": "Indices",
+      "quotes": [
+        {
+          "symbol": "SPX",
+          "name": "S&P 500 (stub)",
+          "last": 5821.42,
+          "changePct": 0.41,
+          "history": [5760, 5772, 5781, 5774, 5790, 5802, 5795, 5808, 5814, 5803, 5817, 5821]
+        },
+        {
+          "symbol": "NDX",
+          "name": "Nasdaq 100 (stub)",
+          "last": 20142.7,
+          "changePct": 0.78,
+          "history": [19800, 19850, 19910, 19880, 19975, 20010, 19990, 20055, 20100, 20070, 20120, 20143]
+        },
+        {
+          "symbol": "RUT",
+          "name": "Russell 2000 (stub)",
+          "last": 2284.6,
+          "changePct": -0.22,
+          "history": [2305, 2298, 2301, 2295, 2289, 2292, 2287, 2284, 2286, 2290, 2287, 2285]
+        }
+      ]
+    },
+    {
+      "id": "ai-infra",
+      "label": "AI infrastructure (stub watchlist)",
+      "quotes": [
+        {
+          "symbol": "AINV",
+          "name": "AI Compute Co. (stub)",
+          "last": 412.8,
+          "changePct": 2.94,
+          "history": [380, 385, 388, 392, 396, 401, 398, 403, 407, 405, 410, 413]
+        },
+        {
+          "symbol": "DATA",
+          "name": "Data Platform Inc. (stub)",
+          "last": 187.3,
+          "changePct": 1.12,
+          "history": [180, 181, 183, 182, 184, 185, 184, 186, 185, 187, 186, 187]
+        },
+        {
+          "symbol": "GPUX",
+          "name": "Edge GPU Holdings (stub)",
+          "last": 96.4,
+          "changePct": -0.66,
+          "history": [101, 100, 99, 98, 97, 98, 97, 96, 97, 96, 97, 96]
+        }
+      ]
+    },
+    {
+      "id": "devtools",
+      "label": "Dev tools & security (stub)",
+      "quotes": [
+        {
+          "symbol": "CRUD",
+          "name": "Sample dev-tool ticker (stub)",
+          "last": 42.0,
+          "changePct": 2.1,
+          "history": [38, 38.5, 39, 39.4, 40, 40.5, 40.2, 41, 41.3, 41.6, 41.8, 42]
+        },
+        {
+          "symbol": "SECY",
+          "name": "Enterprise Security Co. (stub)",
+          "last": 311.5,
+          "changePct": 1.66,
+          "history": [298, 300, 303, 301, 304, 306, 305, 308, 307, 309, 310, 312]
+        },
+        {
+          "symbol": "OBS",
+          "name": "Observability Holdings (stub)",
+          "last": 152.9,
+          "changePct": 0.34,
+          "history": [150, 151, 152, 151, 152, 153, 152, 152, 153, 152, 153, 153]
+        }
+      ]
+    }
   ]
 }
