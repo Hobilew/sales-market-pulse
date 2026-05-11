@@ -1,6 +1,10 @@
 # Sales Market Pulse (MVP)
 
-Static dashboard with **stubbed** market and news data—no external APIs. Product plan: **`prd.md`** (local); canonical copy on [Notion](https://www.notion.so/35dda74ef0458022b028d6c3463e8958).
+Static dashboard with **stubbed** market and news data—no external APIs.
+
+**Repository:** [github.com/Hobilew/sales-market-pulse](https://github.com/Hobilew/sales-market-pulse) (public)
+
+Product plan: **`prd.md`** (local); canonical copy on [Notion](https://www.notion.so/35dda74ef0458022b028d6c3463e8958).
 
 ## Run locally
 
