@@ -1,0 +1,9 @@
+{
+  "asOf": "2026-05-11T14:30:00Z",
+  "disclaimer": "Simulated data for MVP — not live market data.",
+  "quotes": [
+    { "symbol": "SPX", "name": "S&P 500 (stub)", "last": 5821.42, "changePct": 0.41 },
+    { "symbol": "QQQ", "name": "Nasdaq 100 (stub)", "last": 501.12, "changePct": -0.12 },
+    { "symbol": "CRUD", "name": "Sample ticker (stub)", "last": 42.0, "changePct": 2.1 }
+  ]
+}

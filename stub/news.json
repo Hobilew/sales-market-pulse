@@ -1,0 +1,26 @@
+{
+  "disclaimer": "Simulated headlines for MVP — not live news.",
+  "items": [
+    {
+      "id": "n1",
+      "headline": "Enterprise IDEs lean into AI coding agents",
+      "source": "StubWire",
+      "publishedAt": "2026-05-11T14:12:00Z",
+      "tags": ["AI devtools", "Enterprise sales"]
+    },
+    {
+      "id": "n2",
+      "headline": "Buyer checklist: evaluating AI-assisted development tools",
+      "source": "StubWire",
+      "publishedAt": "2026-05-11T13:05:00Z",
+      "tags": ["Procurement", "Cursor"]
+    },
+    {
+      "id": "n3",
+      "headline": "Security teams publish guidance on AI code assistants",
+      "source": "StubDigest",
+      "publishedAt": "2026-05-11T09:40:00Z",
+      "tags": ["Security/compliance", "AI devtools"]
+    }
+  ]
+}
